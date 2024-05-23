@@ -1,4 +1,3 @@
---
 if SERVER then return end
 local vrScrH = CreateClientConVar("vrmod_ScrH_hud", ScrH(), true, FCVAR_ARCHIVE)
 local vrScrW = CreateClientConVar("vrmod_ScrW_hud", ScrW(), true, FCVAR_ARCHIVE)
@@ -168,4 +167,3 @@ hook.Add(
 		RemoveHUD()
 	end
 )
---]]

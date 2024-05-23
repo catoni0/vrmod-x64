@@ -1,5 +1,3 @@
---------[vrmod_holstermenu.txt]Start--------
-AddCSLuaFile()
 if SERVER then return end
 local convars, convarValues = vrmod.GetConvars()
 hook.Add(
@@ -11,9 +9,6 @@ hook.Add(
         local sheet = vgui.Create("DPropertySheet", frame.DPropertySheet)
         frame.DPropertySheet:AddSheet("Non-VR Weapons", sheet)
         sheet:Dock(FILL)
-
-
-        -- releaseタブの追加
         local MenuTab12 = vgui.Create("DPanel", sheet)
         sheet:AddSheet("Non-VR Weapons", MenuTab12, "icon16/gun.png")
         MenuTab12.Paint = function(self, w, h) end
@@ -43,4 +38,3 @@ hook.Add(
         end
     end
 )
---------[vrmod_holstermenu.txt]End--------

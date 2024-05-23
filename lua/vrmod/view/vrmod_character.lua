@@ -644,7 +644,3 @@ if CLIENT then
 
 	
 end
-
-
-
-

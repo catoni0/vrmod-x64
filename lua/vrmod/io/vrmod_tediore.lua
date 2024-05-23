@@ -12,7 +12,6 @@ if SERVER then
         end
     )
 
-    -- 他のネットワークメッセージの追加
     net.Receive(
         "SelectEmptyWeapon",
         function(len, ply)
@@ -67,7 +66,7 @@ if SERVER then
             local phys = Wwep:GetPhysicsObject()
             if phys and phys:IsValid() then
                 phys:Wake()
-                phys:SetMass(99) -- 重さを90に設定
+                phys:SetMass(99) 
                 phys:SetVelocity(ply:GetVelocity() + rhandvel)
                 phys:AddAngleVelocity(-phys:GetAngleVelocity() + phys:WorldToLocalVector(rhandangvel))
             end
@@ -78,7 +77,6 @@ if SERVER then
 
             ply:Give("weapon_vrmod_empty")
             ply:SelectWeapon("weapon_vrmod_empty")
-            -- 要望1: prop_physicsは投げてから10秒後に自動で消える
             timer.Simple(
                 3,
                 function()

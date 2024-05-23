@@ -2,29 +2,6 @@ if not game.SinglePlayer() then return end
 
 vrmod_ladders = vrmod_ladders or {}
 
---[[
-									 
-	 
-									   
-						
-				
-				  
-				
-											 
-	  
-	
-
-vrmod_ladders["gm_construct"] =  {
-	{
-		pos = Vector(1111.8, 262, -135.5),
-		ang = Angle(0,0,0),
-		width = 16,
-		spacing = 16,
-		count = 16,
-		dismounts = { Vector( 1094, 228, 64), },
-	},
-}
---]]
 
 vrmod_ladders["d1_trainstation_01"] =  {
 	{
@@ -126,26 +103,7 @@ vrmod_ladders["d1_canals_02"] =  {
 											 
 	},
 }
-
-									  
-	 
-									
-						 
-				
-				  
-				
-																							 
-	  
-	 
-									
-						 
-				
-				  
-				
-											   
-	  
 	
-
 vrmod_ladders["d1_canals_03"] =  {
 	{
 		pos = Vector(-879.8, 3145, -814),
@@ -253,55 +211,12 @@ vrmod_ladders["d1_canals_06"] =  {
 		dismounts = { Vector( 4598, 6433, -303)},
 	},
 	{
-		pos = Vector(4442, 5899, 20),
-						  
-				
-				  
-				
-																			
-	  
-	  
-	 
-										
+		pos = Vector(4442, 5899, 20),							
 		ang = Angle(0,-90,0),
 		width = 16,
 		spacing = 16,
 		count = 8,
-		dismounts = { Vector( 4416, 5916, 96.1), Vector(4471, 5917, 96.1)},
-	  
-	 
-										
-						  
-				
-				  
-				
-												
-	  
-	  
-	 
-										
-						  
-				
-				  
-			   
-					  
-	  
-	 
-										
-						  
-				
-				  
-				
-																										
-	  
-	  
-	 
-									   
-						
-				
-				  
-				
-											  
+		dismounts = { Vector( 4416, 5916, 96.1), Vector(4471, 5917, 96.1)},									  
 	},
 }
 
@@ -334,29 +249,14 @@ vrmod_ladders["d1_canals_07"] =  {
 
 vrmod_ladders["d1_canals_08"] =  {
 	{
-		pos = Vector(-130, -3547, -442),
-						
-				
-				  
-				
-											  
-	  
-	 
-									
+		pos = Vector(-130, -3547, -442),						
 		ang = Angle(0,-90,0),
 		width = 16,
 		spacing = 16,
 		count = 13,
 		dismounts = { Vector(-130, -3551, -239)},
 	},
-	 
-								  
-						  
-				
-				  
-			   
-																		
-	  
+ 
 }
 
 vrmod_ladders["d1_canals_10"] =  {
@@ -373,15 +273,7 @@ vrmod_ladders["d1_canals_10"] =  {
 		ang = Angle(0,-90,0),
 		width = 16,
 		spacing = 16,
-		count = 16,
-											  
-	  
-	 
-									  
-						  
-				
-					
-			   
+		count = 16,	   
 		dismounts = { Vector(3104, 9343, -127)},
 	},
 }
@@ -413,15 +305,7 @@ vrmod_ladders["d1_canals_12"] =  {
 		width = 16,
 		spacing = 16,
 		count = 5,
-		dismounts = { Vector(571, 11065, 500.1)},
-	  
-	 
-									  
-						  
-				
-				  
-				
-											 
+		dismounts = { Vector(571, 11065, 500.1)},									 
 	},
 }
 
@@ -495,32 +379,9 @@ vrmod_ladders["d1_eli_02"] =  {
 		width = 16,
 		spacing = 16,
 		count = 81,
-		dismounts = { Vector(-3488, 3793, -1663)},
-	  
-	 
-									   
-						
-				
-				  
-				
-											 
-	  
-	 
-									
-						
-				
-				  
-				
-											 
+		dismounts = { Vector(-3488, 3793, -1663)},										 
 	},
-	 
-									  
-						  
-				
-				  
-				
-											 
-	  
+  
 }
 
 vrmod_ladders["d1_town_01"] =  {
@@ -620,39 +481,7 @@ vrmod_ladders["d1_town_02a"] =  {
 vrmod_ladders["d1_town_05"] =  {
 	{
 		pos = Vector(-3940, 7671, 911.6),
-						 
-				
-				  
-			   
-											  
-	  
-	 
-									 
-						 
-				
-				  
-			   
-											  
-	  
-	 
-									   
-						 
-				
-				  
-			   
-											  
-	  
-	 
-									 
 		ang = Angle(0,0,0),
-				
-				  
-			   
-											  
-	  
-	 
-														   
-						  
 		width = 16,
 		spacing = 16,
 		count = 8,
@@ -724,25 +553,10 @@ vrmod_ladders["d2_coast_10"] =  {
 	{
 		pos = Vector(5496, 1050, 944),
 		ang = Angle(0,0,0),
-				
-				  
-			   
-											   
-	  
-	 
-															 
-						  
 		width = 16,
 		spacing = 16,
 		count = 8,
 		dismounts = { Vector(5477, 1026, 1052.1), Vector(5478, 1074, 1052.1)},
-	  
-	 
-										
-							 
-				
-				  
-				
 																		   
 	},
 }
@@ -821,34 +635,10 @@ vrmod_ladders["d2_prison_02"] =  {
 	{
 		pos = Vector(-2524, 3372, 271.4),
 		ang = Angle(0,0,0),
-				
-				  
-				
-												
-	  
-	 
-													   
-						  
 		width = 16,
 		spacing = 16,
 		count = 12,
 		dismounts = { Vector(-2505, 3393, 384.1)},
-	  
-	 
-													   
-						  
-				
-				  
-				
-											   
-	  
-	 
-										
-						 
-				
-				  
-				
-											   
 	},
 }
 
@@ -861,30 +651,7 @@ vrmod_ladders["d2_prison_03"] =  {
 		count = 16,
 		dismounts = { Vector(-2741, 5060, 128.1)},
 	},
-	 
-									   
-						  
-				
-					
-			   
-												
-	  
-	 
-									   
-						  
-				
-					
-			   
-												
-	  
-	 
-									   
-						  
-				
-					
-			   
-												
-	  
+
 }
 
 vrmod_ladders["d2_prison_07"] =  {
@@ -924,14 +691,6 @@ vrmod_ladders["d3_c17_03"] =  {
 		width = 16,
 		spacing = 16,
 		count = 16,
-											  
-	  
-	 
-									 
-						  
-				
-				  
-			   
 		dismounts = { Vector(-3185, -4575, 224.1)},
 	},
 }
@@ -1002,41 +761,7 @@ vrmod_ladders["d3_c17_10a"] =  {
 }
 
 vrmod_ladders["d3_c17_12"] =  {
-	 
-									  
-						  
-				
-				  
-				
-																		   
-	  
-	 
-									   
-						 
-				
-				  
-				
-											
-	  
-	 
-								  
-						  
-				
-				  
-				
-											
-	  
-	 
-								   
-						 
-				
-				  
-				
-																	 
-	  
-	
 
-								   
 	{
 		pos = Vector(-687, 7032, 136),
 		ang = Angle(0,180,0),
@@ -1054,25 +779,6 @@ vrmod_ladders["d3_c17_12"] =  {
 		dismounts = { Vector(-690, 5512, 224.1)},
 	},
 }
-
-								  
-	 
-								   
-						  
-				
-				  
-			   
-											  
-	  
-	 
-								   
-						  
-				
-				  
-			   
-											  
-	  
-	
 
 if CLIENT then
 
@@ -1318,11 +1024,3 @@ elseif SERVER then
 	end)
 	
 end
-
-
-
-
-
-
-
-

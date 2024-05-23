@@ -1,5 +1,3 @@
---------[vrmod_melee_global.lua]Start--------
-AddCSLuaFile()
 local convars, convarValues = vrmod.GetConvars()
 local function IsPlayerInVR(ply)
     return vrmod.IsPlayerInVR(ply)
@@ -424,12 +422,4 @@ if SERVER then
             ply:LagCompensation(false)
         end
     )
-    -- local effectData = EffectData()
-    -- effectData:SetOrigin(src)
-    -- effectData:SetNormal(vel)
-    -- effectData:SetMagnitude(5)
-    -- effectData:SetScale(10)
-    -- effectData:SetRadius(15)
-    -- util.Effect("Sparks", effectData)
 end
---------[vrmod_melee_global.lua]End--------

@@ -13,7 +13,6 @@ if convars.vrmod_configversion:GetString() ~= convars.vrmod_configversion:GetDef
 end
 
 
-
 if CLIENT then
 
 	g_VR.scale = 0
@@ -656,8 +655,7 @@ if CLIENT then
 		end
 	end)
 end
-	
-	
+		
 --elseif SERVER then
 	--	CreateConVar("vrmod_version", vrmod.GetVersion(), FCVAR_NOTIFY)
 end

@@ -52,29 +52,3 @@ hook.Add ( "PlayerCanPickupWeapon", "WeaponTouchPickupDisablerVR", function( ply
 	return false
 end
 end)
-
-
-
-
--- print (ent)
--- print ("picked up")
--- hook.Add( "PlayerCanPickupWeapon", "WeaponTouchPickupDisablerVR", function( ply, wep )
--- -- same thing as the hook for disabling item pickup, but for weapons
-
--- if vrmod_manualpickup:GetBool() and vrmodtest == false and IsValid(wep) and IsValid(ply) and wep != ply.pickupthing and CurTime() > ply.SpawnTimervrpickup and wep:GetPos() != ply:GetPos() then
--- return false
--- 		end
--- end)
-
--- -- does the same thing for weapons as for items
-
--- local delay = 0
-
--- hook.Add( "Think", "CurTimeDelay", function()
--- 	if CurTime() < delay then return end
--- 	vrmodtest = false
--- 	delay = CurTime() + 0.2
--- end)
-
--- this resets the entire script back to its initial state, this is probably horrible but this is my first script and idk how else to do it
--- it works so ¯\_(ツ)_/¯

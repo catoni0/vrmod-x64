@@ -1,16 +1,5 @@
---[[
-	arcvr is hardcoded to use an old vrmod pickup system
-	this mess exists to try keep it working lol
---]]
 local function init()
-	--print("VRMod: pickup arcvr compatibility init")
 	if CLIENT then
-		--function VRUtilPickup()
-		--	print("VRUtilPickup")
-		--end
-		--function VRUtilDrop()
-		--	print("VRUtilDrop")
-		--end
 		net.Receive(
 			"vrutil_net_pickup",
 			function(len)

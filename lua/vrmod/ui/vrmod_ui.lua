@@ -280,7 +280,6 @@ if CLIENT then
 				VRUtilMenuRenderPanel(g_VR.menuFocus)
 			end
 
-			
 		end
 	)
 end

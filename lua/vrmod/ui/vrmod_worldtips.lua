@@ -76,9 +76,6 @@ hook.Add(
 				render.ClearDepth()
 				render.Clear(0, 0, 0, 0)
 				cam.Start2D()
-				--surface.SetDrawColor(255,0,0,255)
-				--surface.DrawOutlinedRect(0,0,512,512)
-				--gamemodes/sandbox/gamemode/cl_worldtips.lua
 				local pos = {
 					x = 512,
 					y = 512

@@ -1,6 +1,5 @@
 if SERVER then return end
 
-
 local _, convarValues = vrmod.GetConvars()
 local seatedOffset, crouchOffset = Vector(), Vector()
 

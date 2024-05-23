@@ -2,7 +2,6 @@ local addonVersion = 200
 local requiredModuleVersion = 23
 local latestModuleVersion = 23
 
-
 g_VR = g_VR or {}
 vrmod = vrmod or {}
 
@@ -677,4 +676,3 @@ hook.Remove = function(...)
 	args[1] = hookTranslations[args[1]] or args[1]
 	orig(unpack(args))
 end
-

@@ -80,25 +80,12 @@ elseif SERVER then
 	local pickupController = nil
 	local pickupList = {}
 	local pickupCount = 0
-	-- local function attackAtHandPosition(handPos)
-	--     -- ここで、手の位置にダミーの攻撃を発生させます。
-	--     -- この攻撃はダメージを与えませんが、ピックアップの前にエンティティへのインタラクションを示します。
-	--     local dmgInfo = DamageInfo()
-	--     dmgInfo:SetDamage(0)
-	--     dmgInfo:SetDamageType(DMG_GENERIC)
-	--     util.TraceLine({
-	--         start = handPos,
-	--         endpos = handPos + Vector(0, 0, -1), -- 1ユニット下向きにトレース
-	--         filter = function(ent) return false end -- 何もヒットしないようにフィルター
-	--     }):GetEntity():TakeDamageInfo(dmgInfo)
-	-- end
 	function drop(steamid, bLeftHand, handPos, handAng, handVel, handAngVel)
 		for i = 1, pickupCount do
 			local t = pickupList[i]
-			if not t then continue end -- 追加: tがnilの場合はスキップ
+			if not t then continue end
 			if t.steamid ~= steamid or t.left ~= bLeftHand then continue end
 			local phys = t.phys
-			-- 修正: tがテーブルであることを確認
 			if not istable(t) or not t.ent then
 				drop(t.steamid, t.left)
 				break
@@ -145,14 +132,8 @@ elseif SERVER then
 	--pes&chatgptstart
 	function shouldPickUp(ent)
 		local vphys = ent:GetPhysicsObject()
-		-- ここで、エンティティが拾われるべきかどうかを判断するコードを追加します。
-		-- 拾われるべきでないエンティティの場合は、false を返します。
-		-- 例: エンティティのクラス名が "not_pickable" の場合、false を返す
 		if ent:GetModel() == "models/hunter/plates/plate.mdl" and IsValid(vphys) and vphys:GetMass() == 20 and ent:GetNoDraw() == true then return false end
-		-- 他の条件を追加することができます。
 		if ent:GetNoDraw() == true then return false end
-		-- 上記の条件に一致しない場合、エンティティは拾われるべきと判断されます。
-
 		return true
 	end
 
@@ -163,8 +144,6 @@ elseif SERVER then
 		local entities = ents.FindInSphere(pickupPoint, 100)
 		for k = 1, #entities do
 			local v = entities[k]
-			--pescorrzonestart
-			-- ここで shouldPickUp 関数を使用して、エンティティが拾われるべきかどうかをチェックします。
 			if not shouldPickUp(v) then continue end
 			if convarValues.vrmod_pickup_limit == 3 then return end
 			if convarValues.vrmod_pickup_limit == 2 then
@@ -263,11 +242,11 @@ elseif SERVER then
 			local index = pickupCount + 1
 			for k2 = 1, pickupCount do
 				local v2 = pickupList[k2]
-				if not v2 then continue end -- 追加: v2がnilの場合はスキップ
-				if not istable(v2) then continue end -- 追加: v2がテーブルでない場合はスキップ
+				if not v2 then continue end 
+				if not istable(v2) then continue end 
 				if v == v2.ent then
 					index = k2
-					-- 修正: g_VR[v2.steamid]とheldItemsの存在を確認
+
 					if g_VR[v2.steamid] and g_VR[v2.steamid].heldItems then
 						g_VR[v2.steamid].heldItems[v2.left and 1 or 2] = nil
 					end
@@ -349,8 +328,6 @@ elseif SERVER then
 		end
 	)
 
-	-- table.remove(g_VR[ply:SteamID()].heldItems)
-	--block the gmod default pickup for vr players
 	hook.Add(
 		"AllowPlayerPickup",
 		"vrmod",
@@ -361,41 +338,36 @@ elseif SERVER then
 end
 
 if SERVER then
-	-- サーバー側でconcommandを登録
 	concommand.Add(
 		"vrmod_reset_pickup",
 		function(ply)
 			if not ply:IsValid() or not ply:IsSuperAdmin() then return end -- プレイヤーが無効または管理者でない場合は実行しない
-			-- pickupListテーブルをクリアする
 			pickupList = {}
 			pickupCount = 0
-			-- 既存のpickupControllerを削除する
 			if IsValid(pickupController) then
 				pickupController:Remove()
 				pickupController = nil
 			end
 
-			-- クライアントにメッセージを送信する
 			net.Start("vrmod_pickup_reset")
 			net.Broadcast()
 			print("VRMod pickup table has been reset by " .. ply:Nick())
 		end
 	)
 
-	-- クライアントにメッセージを送信するためのネットワークストリングを登録
+
 	util.AddNetworkString("vrmod_pickup_reset")
 elseif CLIENT then
-	-- クライアント側でネットワークメッセージを受信したときの処理を登録
+
 	net.Receive(
 		"vrmod_pickup_reset",
 		function()
-			-- クライアント側のheldItemsテーブルをクリアする
+
 			local steamid = LocalPlayer():SteamID()
 			if g_VR[steamid] then
 				g_VR[steamid].heldItems = {}
 			end
 
-			-- クライアント側のheldEntityLeftとheldEntityRightを解放する
 			g_VR.heldEntityLeft = nil
 			g_VR.heldEntityRight = nil
 			print("VRMod pickup table has been reset")

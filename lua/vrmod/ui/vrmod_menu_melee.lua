@@ -1,9 +1,5 @@
--- vrmod_vr_melee.lua
---------[vrmod_addmenu03.lua]Start--------
-AddCSLuaFile()
 if SERVER then return end
 local convars, convarValues = vrmod.GetConvars()
--- 新しいタブを追加
 hook.Add(
     "VRMod_Menu",
     "addsettingsmelee",

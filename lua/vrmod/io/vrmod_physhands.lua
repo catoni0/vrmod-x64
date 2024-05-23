@@ -2,7 +2,6 @@ print ("running vr physhands")
 if CLIENT then return end
 
 
-
 local function vrmodspawnhands(ply)
         if VRMODHandPlayer == true then
     VEERhand = ents.Create("prop_physics")
@@ -159,7 +158,7 @@ hook.Add("VRMod_Drop", "avrmagdetectorrestore", function (ply, ent)
 
         if string.match( tomatch, "avrmag_") then
                 VEERhandLEFT:SetCollisionGroup(COLLISION_GROUP_PASSABLE_DOOR)
-               print ("collision group changed2")
+                print ("collision group changed2")
 
 
         end

@@ -243,6 +243,3 @@ timer.Simple(0,function()
 		LocalPlayer():ConCommand("noclip")
 	end)
 end)
-
-
-

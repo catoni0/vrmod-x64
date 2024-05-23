@@ -5,7 +5,6 @@ CreateClientConVar("cardboardmod_sensitivity", "0.01", true, false)
 local vrScrH = CreateClientConVar("vrmod_ScrH",ScrH(),true,FCVAR_ARCHIVE)
 local vrScrW = CreateClientConVar("vrmod_ScrW",ScrW(),true,FCVAR_ARCHIVE)
 
-
 local ogMcore, ogBorder, ogVMFOV
 
 concommand.Add( "cardboardmod_start", function( ply, cmd, args )
@@ -27,7 +26,6 @@ concommand.Add( "cardboardmod_start", function( ply, cmd, args )
 		print("vr init failed")
 		return
 	end
-	
 	
 	--
 	local displayInfo = VRMOD_GetDisplayInfo(1,10)
@@ -211,6 +209,3 @@ concommand.Add( "cardboardmod_exit", function( ply, cmd, args )
 	RunConsoleCommand("viewmodel_fov", ogVMFOV)
 	vgui.GetWorldPanel():SetSize(vrScrW:GetInt(),vrScrH:GetInt())
 end )
-		
-	
-	

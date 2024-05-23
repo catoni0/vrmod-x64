@@ -1,16 +1,10 @@
-
-
-
--- クライアント側のコンソール変数を作成
-AddCSLuaFile()
-
 CreateClientConVar("vrmelee_ragdollpickup_range", 25, true, FCVAR_ARCHIVE, "Range to check for entities to grab")
 CreateClientConVar("vrmod_pickup_weight", 100, true, FCVAR_ARCHIVE, "Max weight of entity to grab")
--- サーバー側でFindNearestEntity関数とTeleportEntityToHand関数を定義
+
 if SERVER then
-    -- utilライブラリが利用可能かどうかを確認
+
     if util ~= nil then
-        -- ネットワークストリングを登録
+
         util.AddNetworkString("vrmelee_ragdollpickup")
         local function FindNearestEntity(ply, handPos, grabRange, maxWeight, excludeEnt)
             local nearestEnt = nil
@@ -37,7 +31,6 @@ if SERVER then
             end
         end
 
-        -- ネットワークメッセージを受信した時の処理
         net.Receive(
             "vrmelee_ragdollpickup",
             function(len, ply)
@@ -74,9 +67,8 @@ if SERVER then
     end
 end
 
--- クライアント側のコマンド
+
 if CLIENT then
-    -- vrmelee_ragdollpickup_leftの改造
     concommand.Add(
         "vrmelee_ragdollpickup_left",
         function(ply, cmd, args)
@@ -93,7 +85,6 @@ if CLIENT then
         end 
     )
 
-    -- vrmelee_ragdollpickup_rightの改造
     concommand.Add(
         "vrmelee_ragdollpickup_right",
         function(ply, cmd, args)

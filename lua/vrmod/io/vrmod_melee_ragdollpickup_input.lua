@@ -1,5 +1,3 @@
-AddCSLuaFile()
-
 if CLIENT then
 	local cl_pickupdisable = CreateClientConVar("vrmelee_ragdoll_pickup", 0, true, FCVAR_ARCHIVE)
 	hook.Add(

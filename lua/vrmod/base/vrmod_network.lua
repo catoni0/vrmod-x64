@@ -131,9 +131,6 @@ if CLIENT then
 	vrmod.AddCallbackedConvar("vrmod_net_delay", nil, "0.1", nil, nil, nil, nil, tonumber, nil)
 	vrmod.AddCallbackedConvar("vrmod_net_delaymax", nil, "0.2", nil, nil, nil, nil, tonumber, nil)
 	vrmod.AddCallbackedConvar("vrmod_net_storedframes", nil, "15", nil, nil, nil, nil, tonumber, nil)
-	
-	
-	g_VR.net = {
 
 	local debugToggle = false
 	concommand.Add( "vrmod_net_debug", function( ply, cmd, args )

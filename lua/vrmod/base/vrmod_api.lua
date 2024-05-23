@@ -38,7 +38,7 @@ if CLIENT then
 	function vrmod.GetStartupError()
 		local error = nil
 		if g_VR.moduleVersion == 0 then
-			if not file.Exists("lua/bin/gmcl_vrmod_win32.dll","GAME") then
+			if not file.Exists("lua/bin/gmcl_vrmod_linux64.dll","GAME") then
 				error = "Module not installed. Read the workshop description for instructions.\n"
 			else
 				error = "Failed to load module\n"

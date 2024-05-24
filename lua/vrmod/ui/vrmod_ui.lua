@@ -18,12 +18,12 @@ if CLIENT then
 		"UnlitGeneric",
 		{
 			["$basetexture"] = rt_beam:GetName(),
-			["$ignorez"] = 1 -- 深度バッファを無視して描画
+			["$ignorez"] = 1
 		}
 	)
 
 	render.PushRenderTarget(rt_beam)
-	render.Clear(0, 0, 255, 255)
+	render.Clear(72, 255, 0, 255)
 	render.PopRenderTarget()
 	g_VR.menus = {}
 	local menus = g_VR.menus
@@ -67,7 +67,7 @@ if CLIENT then
 		local menuFocusPanel = nil
 		local menuFocusCursorWorldPos = nil
 		local tms = render.GetToneMappingScaleLinear()
-		render.SetToneMappingScaleLinear(g_VR.view.dopostprocess and Vector(0.75, 0.75, 0.75) or Vector(1, 1, 1))
+		render.SetToneMappingScaleLinear(g_VR.view.dopostprocess and Vector(0.50, 0.50, 0.50) or Vector(1, 1, 1))
 		for k, v in ipairs(menuOrder) do
 			k = v.uid
 			if v.panel then
@@ -88,7 +88,7 @@ if CLIENT then
 				pos, ang = LocalToWorld(pos, ang, g_VR.origin, g_VR.originAngle)
 			end
 
-			--cam.IgnoreZ(true)
+			cam.IgnoreZ(true)
 			cam.Start3D2D(pos, ang, v.scale)
 			surface.SetDrawColor(255, 255, 255, 255)
 			surface.SetMaterial(v.mat)
@@ -100,7 +100,7 @@ if CLIENT then
 			end
 
 			cam.End3D2D()
-			--cam.IgnoreZ(false)
+			cam.IgnoreZ(false)
 			if v.cursorEnabled then
 				local cursorX, cursorY = -1, -1
 				local cursorWorldPos = Vector(0, 0, 0)
@@ -237,14 +237,6 @@ if CLIENT then
 		end
 	end
 
-	-- local VRClipboard = GetConVar("vrmod_Clipboard"):GetString()
-	-- -- マウスカーソル下にあるパネルを取得する
-	-- local panel = vgui.GetHoveredPanel()
-	-- -- パネルがDTextEntryであるかどうかを確認する
-	-- if IsValid(panel) then
-	-- -- テキストボックスにConVarの文字列を設定する
-	-- panel:SetString (VRClipboard)
-	-- end
 	hook.Add(
 		"VRMod_Input",
 		"ui",
@@ -271,7 +263,6 @@ if CLIENT then
 
 			if g_VR.menuFocus and action == "boolean_sprint" then
 				if pressed then
-					-- キー入力イベントをフックする
 					gui.InternalMousePressed(MOUSE_MIDDLE)
 				else
 					gui.InternalMouseReleased(MOUSE_MIDDLE)
@@ -283,3 +274,14 @@ if CLIENT then
 		end
 	)
 end
+
+concommand.Add(
+	"vrmod_vgui_reset",
+	function()
+		for _, v in pairs(vgui.GetWorldPanel():GetChildren()) do
+			v:Remove()
+		end
+
+		RunConsoleCommand("spawnmenu_reload") -- It even removes spawnmenu, so we need to reload it
+	end
+)

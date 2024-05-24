@@ -34,7 +34,7 @@ if CLIENT then
 	--todo move some of these to the files where they belong
 	vrmod.AddCallbackedConvar("vrmod_althead", nil, "0")
 	vrmod.AddCallbackedConvar("vrmod_autostart", nil, "1")
-	vrmod.AddCallbackedConvar("vrmod_scale", nil, "38.7")
+	vrmod.AddCallbackedConvar("vrmod_scale", nil, "32.7")
 	vrmod.AddCallbackedConvar("vrmod_heightmenu", nil, "1")
 	vrmod.AddCallbackedConvar("vrmod_floatinghands", nil, "0")
 	vrmod.AddCallbackedConvar("vrmod_desktopview", nil, "3")
@@ -54,19 +54,7 @@ if CLIENT then
 		end
 	end)
 	
-	
-	concommand.Add(
-		"vrmod_vgui_reset",
-		function()
-			for _, v in pairs(vgui.GetWorldPanel():GetChildren()) do
-				v:Remove()
-			end
 
-			RunConsoleCommand("spawnmenu_reload") -- It even removes spawnmenu, so we need to reload it
-		end
-	)
-
-	
 	hook.Add("VRMod_Menu","vrmod_options",function(frame)
 		local form = frame.SettingsForm
 		form:CheckBox("Use floating hands", "vrmod_floatinghands")
@@ -169,20 +157,6 @@ if CLIENT then
 		end
 		hook.Call("VRMod_Reset")
 	end )
-	
---[[	
-	concommand.Add("vrmod_character_restart", function(ply, cmd, args)
-		if not g_VR.active then return end
-		LocalPlayer():ConCommand("vrmod_exit")
-		AddCSLuaFile("vrmod/vrmod_character.lua")
-		include("vrmod/vrmod_character.lua")
-		AddCSLuaFile("vrmod/vrmod_character_hands.lua")
-		include("vrmod/vrmod_character_hands.lua")
-		LocalPlayer():ConCommand("vrmod_start")
-		g_VR.MenuOpen()
-		g_VR.MenuClose()
-	end )
-]]	
 	
 	
 	concommand.Add( "vrmod_info", function( ply, cmd, args )

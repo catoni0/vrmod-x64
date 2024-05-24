@@ -1,5 +1,8 @@
 --******************************************************************************************************************************
 local cv_allowtp = CreateConVar("vrmod_allow_teleport", "1", FCVAR_REPLICATED)
+local cv_allowtp = CreateClientConVar("vrmod_allow_teleport", 1,true, FCVAR_REPLICATED)
+local cv_usetp = CreateClientConVar("vrmod_allow_teleport_client",0,true,FCVAR_ARCHIVE)
+
 if SERVER then 
 	util.AddNetworkString("vrmod_teleport")
 	vrmod.NetReceiveLimited("vrmod_teleport",10,300,function(len, ply)

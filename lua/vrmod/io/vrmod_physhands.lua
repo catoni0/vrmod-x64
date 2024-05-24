@@ -1,7 +1,6 @@
 print ("running vr physhands")
 if CLIENT then return end
 
-
 local function vrmodspawnhands(ply)
         if VRMODHandPlayer == true then
     VEERhand = ents.Create("prop_physics")
@@ -33,7 +32,6 @@ local function vrmodspawnhands(ply)
                 VEERhandLEFT:Remove()
         end
 end
-
 
 
     hook.Add("PlayerTick", "physhandphys", function (ply)
@@ -92,7 +90,6 @@ end
     end)
 
 
-
     hook.Add("VRMod_Pickup", "physhandnopickup", function (ply, ent)
 
             if ent == VEERhand then return false
@@ -120,7 +117,6 @@ hook.Add("PlayerSpawn", "physhandinit2", function (ply)
 end)
 
 
-
     hook.Add("PlayerDeath", "physhandshutdown2", function (ply)
 
         if IsValid(VEERhand) and IsValid (VEERhandLEFT) then
@@ -135,7 +131,6 @@ hook.Add("VRMod_Exit", "physhandshutdown", function (ply)
                 vrmodremovehands(ply)
         end
 end)
-
 
 
 
@@ -156,11 +151,14 @@ hook.Add("VRMod_Drop", "avrmagdetectorrestore", function (ply, ent)
 
         local tomatch = ent:GetClass()
 
-        if string.match( tomatch, "avrmag_") then
-                VEERhandLEFT:SetCollisionGroup(COLLISION_GROUP_PASSABLE_DOOR)
-                print ("collision group changed2")
+        if IsValid(tomatch) then                                                                                                
+                if string.match( tomatch, "avrmag_") then
+                        VEERhandLEFT:SetCollisionGroup(COLLISION_GROUP_PASSABLE_DOOR)
 
-
-        end
-
+                end                                                                         
+        else                                                                                                                
+                                                
+        print("Attemt to drop empty object!")                                                                         
+        end      
+        
 end)

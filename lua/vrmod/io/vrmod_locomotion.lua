@@ -1,21 +1,21 @@
---******************************************************************************************************************************
-local cv_allowtp = CreateConVar("vrmod_allow_teleport", "1", FCVAR_REPLICATED)
 local cv_allowtp = CreateClientConVar("vrmod_allow_teleport", 1,true, FCVAR_REPLICATED)
 local cv_usetp = CreateClientConVar("vrmod_allow_teleport_client",0,true,FCVAR_ARCHIVE)
+local cl_analogmoveonly = CreateClientConVar("vrmod_test_analogmoveonly",0,false,FCVAR_ARCHIVE)
 
 if SERVER then 
 	util.AddNetworkString("vrmod_teleport")
-	vrmod.NetReceiveLimited("vrmod_teleport",10,300,function(len, ply)
+	vrmod.NetReceiveLimited("vrmod_teleport",10,333,function(len, ply)
 		if cv_allowtp:GetBool() and g_VR[ply:SteamID()] ~= nil and (hook.Run("PlayerNoClip", ply, true) == true or ULib and ULib.ucl.query( ply, "ulx noclip" ) == true) then
 			ply:SetPos(net.ReadVector())
 		end
 	end)
 	return
 end
+
 local tpBeamMatrices, tpBeamEnt, tpBeamHitPos = {}, nil, nil
 for i = 1,17 do tpBeamMatrices[i] = Matrix() end
 hook.Add("VRMod_Input","teleport",function( action, pressed )
-	if action == "boolean_chat" and not LocalPlayer():InVehicle() then
+	if action == "boolean_teleport" and not LocalPlayer():InVehicle() and cv_allowtp:GetBool() and cv_usetp:GetBool() then
 		if pressed then
 			tpBeamEnt = ClientsideModel("models/vrmod/tpbeam.mdl")
 			tpBeamEnt:SetRenderMode(RENDERMODE_TRANSCOLOR)
@@ -45,11 +45,11 @@ hook.Add("VRMod_Input","teleport",function( action, pressed )
 							tpBeamMatrices[1]:Translate(tr.HitPos+tr.HitNormal)
 							tpBeamMatrices[1]:Rotate(tr.HitNormal:Angle()+Angle(90,0,90))
 							if tr.HitNormal.z < 0.7 then
-								tpBeamMatrices[1]:Scale(Vector(0.5,0.5,0.5))
-								tpBeamEnt:SetColor(Color(255,100,100,150))
+								tpBeamMatrices[1]:Scale(Vector(0.6,0.6,0.6))
+								tpBeamEnt:SetColor(Color(255,0,0,200))
 								tpBeamHitPos = nil
 							else
-								tpBeamEnt:SetColor(Color(100,255,100,150))
+								tpBeamEnt:SetColor(Color(7,255,0,200))
 								tpBeamHitPos = tr.HitPos
 							end
 							tpBeamEnt:SetPos(tr.HitPos)
@@ -81,10 +81,11 @@ if SERVER then return end
 
 
 local convars, convarValues = vrmod.AddCallbackedConvar("vrmod_controlleroriented", "controllerOriented", "0", nil, nil, nil, nil, tobool)
-vrmod.AddCallbackedConvar("vrmod_smoothturn", "smoothTurn", "1", nil, nil, nil, nil, tobool)
-vrmod.AddCallbackedConvar("vrmod_smoothturnrate", "smoothTurnRate", "360", nil, nil, nil, nil, tonumber)
+vrmod.AddCallbackedConvar("vrmod_smoothturn", "smoothTurn", "0", nil, nil, nil, nil, tobool)
+vrmod.AddCallbackedConvar("vrmod_smoothturnrate", "smoothTurnRate", "180", nil, nil, nil, nil, tonumber)
 vrmod.AddCallbackedConvar("vrmod_crouchthreshold", "crouchThreshold", "40", nil, nil, nil, nil, tonumber)
-
+local cv_sight = CreateClientConVar("vrmod_sight_bodypart",1,false,FCVAR_ARCHIVE)
+local jumpduck = CreateClientConVar("vrmod_autojumpduck",1,true,FCVAR_ARCHIVE)
 local zeroVec, zeroAng = Vector(), Angle()
 local upVec = Vector(0,0,1)
 
@@ -144,6 +145,7 @@ local function start()
 	
 	hook.Add("CreateMove","vrmod_locomotion",function(cmd)
 		if not g_VR.threePoints then return end
+
 		--vehicle behaviour
 		if ply:InVehicle() then
 			cmd:SetForwardMove((g_VR.input.vector1_forward-g_VR.input.vector1_reverse)*400)
@@ -153,18 +155,26 @@ local function start()
 			cmd:SetButtons( bit.bor(cmd:GetButtons(), g_VR.input.boolean_turbo and IN_SPEED or 0, g_VR.input.boolean_handbrake and IN_JUMP or 0) )
 			return
 		end
-		local moveType = ply:GetMoveType()
-		cmd:SetButtons( bit.bor(cmd:GetButtons(), g_VR.input.boolean_jump and IN_JUMP + IN_DUCK or 0,  g_VR.input.boolean_sprint and IN_SPEED or 0, moveType == MOVETYPE_LADDER and IN_FORWARD or 0, (g_VR.tracking.hmd.pos.z < ( g_VR.origin.z + convarValues.crouchThreshold )) and IN_DUCK or 0 ) )
+	
+local moveType = ply:GetMoveType()
+cmd:SetButtons( bit.bor(cmd:GetButtons(), g_VR.input.boolean_jump and IN_JUMP + IN_DUCK or 0,  g_VR.input.boolean_sprint and IN_SPEED or 0, moveType == MOVETYPE_LADDER and IN_FORWARD or 0, (g_VR.tracking.hmd.pos.z < ( g_VR.origin.z + convarValues.crouchThreshold )) and IN_DUCK or 0 ) )
 		--set view angles to viewmodel muzzle angles for engine weapon support, note: movement is relative to view angles
 		local viewAngles = g_VR.currentvmi and g_VR.currentvmi.wrongMuzzleAng and g_VR.tracking.pose_righthand.ang or g_VR.viewModelMuzzle and g_VR.viewModelMuzzle.Ang or g_VR.tracking.hmd.ang
 		viewAngles = viewAngles:Forward():Angle()
 		cmd:SetViewAngles(viewAngles)
 		--noclip behaviour
 		if moveType == MOVETYPE_NOCLIP then
+			if cl_analogmoveonly:GetBool() then
+				LocalPlayer():ConCommand("vrmod_test_analogmoveonly 1")
+			end
 			cmd:SetForwardMove( math.abs(g_VR.input.vector2_walkdirection.y) > 0.5 and g_VR.input.vector2_walkdirection.y or 0 )
 			cmd:SetSideMove( math.abs(g_VR.input.vector2_walkdirection.x) > 0.5 and g_VR.input.vector2_walkdirection.x or 0 )
 			originVelocity = ply:GetVelocity()
 			return
+		else
+			if cl_analogmoveonly:GetBool() then
+				LocalPlayer():ConCommand("vrmod_test_analogmoveonly 0")
+			end
 		end
 		--
 		local joystickVec = LocalToWorld(Vector(g_VR.input.vector2_walkdirection.y * math.abs(g_VR.input.vector2_walkdirection.y), (-g_VR.input.vector2_walkdirection.x) * math.abs(g_VR.input.vector2_walkdirection.x), 0)*ply:GetMaxSpeed()*0.9, Angle(0,0,0), Vector(0,0,0), Angle(0, convarValues.controllerOriented and g_VR.tracking.pose_lefthand.ang.yaw or g_VR.tracking.hmd.ang.yaw, 0))
@@ -197,7 +207,9 @@ local function stop()
 	--
 	hook.Remove("VRMod_PreRender","teleport")
 	if IsValid(tpBeamEnt) then tpBeamEnt:Remove() end
+	vrmod.RemoveInGameMenuItem("Map Browser")
 	vrmod.RemoveInGameMenuItem("Reset Vehicle View")
+	
 end
 
 local function options( panel )

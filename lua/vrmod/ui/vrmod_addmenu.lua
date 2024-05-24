@@ -7,7 +7,7 @@ hook.Add(
 		--Settings02 Start
 		--add VRMod_Menu Settings02 propertysheet start
 		local sheet = vgui.Create("DPropertySheet", frame.DPropertySheet)
-		frame.DPropertySheet:AddSheet("Settings02", sheet)
+		frame.DPropertySheet:AddSheet("Gameplay", sheet)
 		sheet:Dock(FILL)
 		--add VRMod_Menu Settings02 propertysheet end
 		--MenuTab01  Start
@@ -165,7 +165,6 @@ hook.Add(
 		end
 
 		
-
 		--MenuTab03 "1" end
 		-- MenuTab04  Start
 		local MenuTab04 = vgui.Create("DPanel", sheet)
@@ -318,5 +317,49 @@ hook.Add(
 			RunConsoleCommand("vrmod_hudblacklist", "") -- Run the console command "say hi" when you click it ( command, args )
 			RunConsoleCommand("vrmod_hud_visible_quickmenukey", "0") -- Run the console command "say hi" when you click it ( command, args )
 		end
+		
+		local sheet = vgui.Create("DPropertySheet", frame.DPropertySheet)
+        frame.DPropertySheet:AddSheet("Non-VR Weapons", sheet)
+        sheet:Dock(FILL)
+        local MenuTab12 = vgui.Create("DPanel", sheet)
+        sheet:AddSheet("Non-VR Weapons", MenuTab12, "icon16/gun.png")
+        MenuTab12.Paint = function(self, w, h) end
+        local dropenable_checkbox = MenuTab12:Add("DCheckBoxLabel")
+        dropenable_checkbox:SetPos(20, 10)
+        dropenable_checkbox:SetText("Drop weapon")
+        dropenable_checkbox:SetConVar("vrmod_weapondrop_enable")
+        dropenable_checkbox:SizeToContents()
+        local dropmode_checkbox = MenuTab12:Add("DCheckBoxLabel")
+        dropmode_checkbox:SetPos(20, 40)
+        dropmode_checkbox:SetText("Trash Weapon on Drop")
+        dropmode_checkbox:SetConVar("vrmod_weapondrop_trashwep")
+        dropmode_checkbox:SizeToContents()
+
+		local sheet = vgui.Create("DPropertySheet", frame.DPropertySheet)
+        frame.DPropertySheet:AddSheet("VRMelee", sheet)
+        sheet:Dock(FILL)
+        local MenuTabmelee = vgui.Create("DPanel", sheet)
+        sheet:AddSheet("VRMelee1", MenuTabmelee, "icon16/briefcase.png")
+        MenuTabmelee.Paint = function(self, w, h) end
+        local form = vgui.Create("DForm", sheet)
+        form:SetName("VRMelee")
+        form:Dock(TOP)
+        form.Header:SetVisible(false)
+        form.Paint = function(self, w, h) end
+        -- form:CheckBox("Allow Gun Melee", "vrmelee_gunmelee")
+        form:CheckBox("Use Gun Melee", "vrmelee_usegunmelee")
+        -- form:CheckBox("Allow Fist Attacks", "vrmelee_fist")
+        form:CheckBox("Use Fist Attacks", "vrmelee_usefist")
+        -- form:CheckBox("Allow Kick Attacks [FBT]", "vrmelee_kick")
+        form:CheckBox("Use Kick Attacks [FBT]", "vrmelee_usekick")
+        form:NumSlider("Melee Velocity Threshold", "vrmelee_velthreshold", 0.1, 10, 1)
+        form:NumSlider("Melee Damage", "vrmelee_damage", 0, 1000, 0)
+        form:NumSlider("Melee Delay", "vrmelee_delay", 0.01, 1, 2)
+        form:CheckBox("Fist Collision", "vrmelee_fist_collision")
+        form:CheckBox("Fist Collision Visible", "vrmelee_fist_visible")
+        form:CheckBox("ragdoll wide pickup", "vrmelee_ragdoll_pickup")
+        form:NumSlider("ragdoll pickup range", "vrmelee_ragdollpickup_range",0,40,1)
+        form:TextEntry("Collision Model", "vrmelee_fist_collisionmodel")
+
 end)
 

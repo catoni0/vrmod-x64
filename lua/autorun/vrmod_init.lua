@@ -1,3 +1,5 @@
+AddCSLuaFile()
+
 local paths = {}
 
 local _, folders = file.Find("vrmod/*","LUA")
@@ -13,19 +15,3 @@ for k,v in ipairs(paths) do
 		include(v..v2)
 	end
 end
--- local function AddFiles(folder)
---      local files, directories = file.Find(folder .. "/*", "LUA")
---
---      for _, file in ipairs(files) do
---          if string.EndsWith(file, ".lua") then
---             AddCSLuaFile(folder .. "/" .. file)
---             include(folder .. "/" .. file)
---          end
---      end
---
---      for _, directory in ipairs(directories) do
---          AddFiles(folder .. "/" .. directory)
---      end
---  end
---
---  AddFiles("vrmod") -- Replace with your addon's root folder

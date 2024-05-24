@@ -1,9 +1,9 @@
 AddCSLuaFile()
 if SERVER then
     util.AddNetworkString("ChangeWeapon")
-    util.AddNetworkString("ReloadHolster")
     util.AddNetworkString("DropWeapon")
     util.AddNetworkString("SelectEmptyWeapon")
+    
     net.Receive(
         "ChangeWeapon",
         function(len, ply)
@@ -97,35 +97,9 @@ end
 if CLIENT then
     local tedioreenable = CreateClientConVar("vrmod_pickupoff_weaponholster", 1, true, FCVAR_ARCHIVE, "", 0, 1)
     local dropenable = CreateClientConVar("vrmod_weapondrop_enable", 1, true, FCVAR_ARCHIVE, "", 0, 1)
-    local dropmode = CreateClientConVar("vrmod_weapondrop_trashwep", 1, true, FCVAR_ARCHIVE, "", 0, 1)
-    local dummylefthand = CreateClientConVar("vrmod_lefthand", 0, false)
-    local ply = LocalPlayer()
-    hook.Add(
-        "VRMod_Input",
-        "ReloadHolsterinput",
-        function(action, state)
-            if tedioreenable:GetBool() and not dropenable:GetBool() then
-                if not GetConVar("vrmod_lefthand"):GetBool() then
-                    if action == "boolean_right_pickup" and not state then
-                        net.Start("SelectEmptyWeapon")
-                        net.SendToServer()
-
-                        return
-                    end
-                else
-                    if action == "boolean_left_pickup" and not state then
-                        net.Start("SelectEmptyWeapon")
-                        net.SendToServer()
-
-                        return
-                    end
-                end
-            end
-        end
-    )
-
-    local ply = LocalPlayer()
     local dropmode = CreateClientConVar("vrmod_weapondrop_trashwep", 0, true, FCVAR_ARCHIVE, "", 0, 1)
+    local ply = LocalPlayer()
+    
     hook.Add(
         "VRMod_Input",
         "Tediore_holster_Drop",

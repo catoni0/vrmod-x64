@@ -1,10 +1,10 @@
 if SERVER then return end
 surface.CreateFont(
-	"vrmod_HalfLife2",
+	"vrmod_font_normal",
 	{
-		font = "HalfLife2",
+		font = "Px IBM BIOS",
 		extended = false,
-		size = 50,
+		size = 16,
 		weight = 0,
 		blursize = 0,
 		scanlines = 0,
@@ -12,28 +12,30 @@ surface.CreateFont(
 	}
 )
 
-surface.CreateFont(
-	"vrmod_HalfLife2Small",
-	{
-		font = "HalfLife2",
-		extended = false,
-		size = 25,
-		weight = 0,
-		blursize = 0,
-		scanlines = 0,
-		antialias = true,
-	}
-)
 
 surface.CreateFont(
-	"vrmod_Verdana37",
+	"vrmod_font_mid",
 	{
-		font = "Verdana",
-		size = 37,
+		font = "Px IBM BIOS",
+		size = 13,
 		weight = 600,
 		antialias = true,
 	}
 )
+
+surface.CreateFont(
+	"vrmod_font_small",
+	{
+		font = "Px IBM BIOS",
+		extended = false,
+		size = 7,
+		weight = 0,
+		blursize = 0,
+		scanlines = 0,
+		antialias = true,
+	}
+)
+
 
 local open = false
 function VRUtilWeaponMenuOpen()
@@ -41,64 +43,6 @@ function VRUtilWeaponMenuOpen()
 	open = true
 	--
 	local items = {}
-	local overrides = {
-		weapon_smg1 = {
-			label = "a",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_shotgun = {
-			label = "b",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_crowbar = {
-			label = "c",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_pistol = {
-			label = "d",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_357 = {
-			label = "e",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_crossbow = {
-			label = "g",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_physgun = {
-			label = "h",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_rpg = {
-			label = "i",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_bugbait = {
-			label = "j",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_frag = {
-			label = "k",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_ar2 = {
-			label = "l",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_physcannon = {
-			label = "m",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_stunstick = {
-			label = "n",
-			font = "vrmod_HalfLife2"
-		},
-		weapon_slam = {
-			label = "o",
-			font = "vrmod_HalfLife2"
-		},
-	}
 
 	for k, v in pairs(LocalPlayer():GetWeapons()) do
 		local slot, slotPos = v:GetSlot(), v:GetSlotPos()
@@ -115,8 +59,8 @@ function VRUtilWeaponMenuOpen()
 			index,
 			{
 				title = v:GetPrintName(),
-				label = language.GetPhrase(overrides[v:GetClass()] == nil and v:GetPrintName() or overrides[v:GetClass()].label),
-				font = overrides[v:GetClass()] == nil and "HudSelectionText" or overrides[v:GetClass()].font,
+				label = v:GetPrintName(),
+				font = "vrmod_font_small",
 				wep = v,
 				slot = slot,
 				slotPos = slotPos
@@ -275,23 +219,23 @@ function VRUtilWeaponMenuOpen()
 			--draw.SimpleText( renderCount, "HudSelectionText", 0, 512, Color( 255, 250, 0, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM )
 			--health
 			draw.RoundedBox(8, 0, 0, 145, 53, Color(0, 0, 0, 128))
-			draw.SimpleText("HEALTH", "HudSelectionText", 10, 45, Color(255, values.health > 19 and 250 or 0, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-			draw.SimpleText(values.health, "vrmod_HalfLife2", 140, 50, Color(255, values.health > 19 and 250 or 0, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText("HEALTH", "vrmod_font_small", 10, 45, Color(255, values.health > 19 and 250 or 0, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText(values.health, "vrmod_font_mid", 140, 50, Color(255, values.health > 19 and 250 or 0, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
 			--suit
 			draw.RoundedBox(8, 149, 0, 130, 53, Color(0, 0, 0, 128))
-			draw.SimpleText("SUIT", "HudSelectionText", 165, 45, Color(255, 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-			draw.SimpleText(values.suit, "vrmod_HalfLife2", 270, 50, Color(255, 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText("SUIT", "vrmod_font_small", 165, 45, Color(255, 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText(values.suit, "vrmod_font_mid", 270, 50, Color(255, 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
 			--ammo
 			draw.RoundedBox(8, 283, 0, 150, 53, Color(0, 0, 0, 128))
-			draw.SimpleText("AMMO", "HudSelectionText", 290, 45, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-			draw.SimpleText(values.clip, "vrmod_HalfLife2", 338, 50, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-			draw.SimpleText(values.total, "vrmod_HalfLife2Small", 429, 47, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText("AMMO", "vrmod_font_small", 290, 45, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText(values.clip, "vrmod_font_mid", 338, 50, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText(values.total, "vrmod_font_mid", 429, 47, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
 			draw.RoundedBox(8, 437, 0, 75, 53, Color(0, 0, 0, 128))
-			draw.SimpleText("ALT", "HudSelectionText", 440, 45, Color(255, 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-			draw.SimpleText(values.alt, "vrmod_HalfLife2", 512, 50, Color(255, 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText("ALT", "vrmod_font_small", 440, 45, Color(255, 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+			draw.SimpleText(values.alt, "vrmod_font_mid", 512, 50, Color(255, 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
 			--hovered item name
 			draw.RoundedBox(8, 0, 57, 512, 53, Color(0, 0, 0, 128))
-			draw.SimpleText(items[values.hoveredItem] and items[values.hoveredItem].title or "", "vrmod_Verdana37", 256, 85, Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			draw.SimpleText(items[values.hoveredItem] and items[values.hoveredItem].title or "", "vrmod_font_mid", 256, 85, Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			--weapon list/buttons
 			local buttonWidth, buttonHeight = 82, 53
 			local gap = (512 - buttonWidth * 6) / 5

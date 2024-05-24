@@ -23,8 +23,11 @@ if CLIENT then
 	)
 
 	render.PushRenderTarget(rt_beam)
+	--menu pointer color
 	render.Clear(72, 255, 0, 255)
 	render.PopRenderTarget()
+
+
 	g_VR.menus = {}
 	local menus = g_VR.menus
 	local menuOrder = {}

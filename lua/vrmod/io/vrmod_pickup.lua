@@ -129,7 +129,7 @@ elseif SERVER then
 		end
 	end
 
-	--pes&chatgptstart
+
 	function shouldPickUp(ent)
 		local vphys = ent:GetPhysicsObject()
 		if ent:GetModel() == "models/hunter/plates/plate.mdl" and IsValid(vphys) and vphys:GetMass() == 20 and ent:GetNoDraw() == true then return false end
@@ -137,7 +137,6 @@ elseif SERVER then
 		return true
 	end
 
-	--pes&chatgptend
 	function pickup(ply, bLeftHand, handPos, handAng)
 		local steamid = ply:SteamID()
 		local pickupPoint = LocalToWorld(Vector(3, bLeftHand and -1.5 or 1.5, 0), Angle(), handPos, handAng)

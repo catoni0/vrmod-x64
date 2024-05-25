@@ -255,10 +255,11 @@ if CLIENT then
 		end
 		
 		local displayInfo = VRMOD_GetDisplayInfo(1,10)
-		
+
 		local rtWidth, rtHeight = displayInfo.RecommendedWidth*2, displayInfo.RecommendedHeight
 		if system.IsLinux() then
-			rtWidth, rtHeight = math.min(4096,pow2ceil(rtWidth)), math.min(4096,pow2ceil(rtHeight)) --todo pow2ceil might not be necessary
+			rtWidth, rtHeight = math.min(4096,rtWidth), math.min(4096,rtHeight) 
+
 		end
 		
 		VRMOD_ShareTextureBegin()

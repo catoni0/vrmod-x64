@@ -27,6 +27,16 @@ local function GetRightHandAng(ply)
     return vrmod.GetRightHandAng(ply)
 end
 
+
+local function GetLeftHandVelocity(ply)
+    return vrmod.GetLeftHandVelocity(ply)
+end
+
+local function GetLeftRightVelocity(ply)
+    return vrmod.GetLeftRightVelocity(ply)
+end
+
+--models/hunter/plates/plate.mdl
 local cv_allowgunmelee = CreateConVar("vrmelee_gunmelee", "1", FCVAR_REPLICATED + FCVAR_ARCHIVE, "Allow melee attacks with gun?")
 local cv_allowfist = CreateConVar("vrmelee_fist", "1", FCVAR_REPLICATED + FCVAR_ARCHIVE, "Allow fist attacks?")
 local cv_allowkick = CreateConVar("vrmelee_kick", "1", FCVAR_REPLICATED + FCVAR_ARCHIVE, "Allow kick attacks? (Requires full body tracking)")
@@ -38,7 +48,7 @@ local cl_usefist = CreateClientConVar("vrmelee_usefist", "1", true, FCVAR_CLIENT
 local cl_usekick = CreateClientConVar("vrmelee_usekick", "0", true, FCVAR_CLIENTCMD_CAN_EXECUTE + FCVAR_ARCHIVE, "Use kick attacks? (Requires full body tracking)")
 local cl_fisteffect = CreateClientConVar("vrmelee_fist_collision", "0", true, FCVAR_CLIENTCMD_CAN_EXECUTE + FCVAR_ARCHIVE, "Use Fist attack Collision?")
 local cl_fistvisible = CreateClientConVar("vrmelee_fist_visible", "0", true, FCVAR_CLIENTCMD_CAN_EXECUTE + FCVAR_ARCHIVE, "Visible Fist Attack Collision Model?")
-local cl_effectmodel = CreateClientConVar("vrmelee_fist_collisionmodel", "models/hunter/plates/plate.mdl", true, FCVAR_CLIENTCMD_CAN_EXECUTE + FCVAR_ARCHIVE, "Fist Attack Collision Model Config")
+local cl_effectmodel = CreateClientConVar("vrmelee_fist_collisionmodel", "models/props_c17/pulleywheels_small01.mdl", true, FCVAR_CLIENTCMD_CAN_EXECUTE + FCVAR_ARCHIVE, "Fist Attack Collision Model Config")
 local NextMeleeTime = 0
 if CLIENT then
     local meleeBoxes = {}
@@ -189,9 +199,21 @@ if CLIENT then
                     if cl_fisteffect:GetBool() then
                         -- Spawn invisible collision box for right fist
                         local ent = ents.CreateClientProp()
+
+                        
+                        -- local weapon = ply:GetActiveWeapon() -- Get the currently equipped weapon                                       
+                        -- if IsValid(weapon) then -- Check if the weapon is valid                                                         
+                        --     ent:SetModel(weapon:GetModel())
+                        --     ent:SetAngles(0)
+                        -- else                                                                                                            
+                        --     ent:SetModel(cl_effectmodel:GetString())
+                        --     ent:SetAngles(tr2.HitNormal:Angle())                                                                  
+                        -- end   
+
                         ent:SetModel(cl_effectmodel:GetString())
+                        ent:SetAngles(tr2.HitNormal:Angle()) 
                         ent:SetPos(src)
-                        ent:SetAngles(tr2.HitNormal:Angle())
+                        
                         ent:Spawn()
                         ent:SetSolid(SOLID_BSP)
                         ent:SetMoveType(MOVETYPE_VPHYSICS)
@@ -406,11 +428,18 @@ if SERVER then
             src[2] = net.ReadFloat()
             src[3] = net.ReadFloat()
             local vel = net.ReadVector()
+            local player_speed = (ply:GetVelocity():Length()/100)
+            local fist_speed = (vel:Length()/2) 
+            local damage  = cv_meleeDamage:GetFloat()
+            local total = damage*(player_speed+fist_speed)
+            print("hit -")
+            print(total)
             ply:LagCompensation(true)
+
             ply:FireBullets(
                 {
                     Attacker = ply,
-                    Damage = cv_meleeDamage:GetFloat(),
+                    Damage = total,
                     Force = 1,
                     Num = 1,
                     Tracer = 0,

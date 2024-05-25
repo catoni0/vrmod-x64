@@ -159,10 +159,27 @@ hook.Add(
 		GamePlay_defaultbutton.DoClick = function()
 			RunConsoleCommand("vrmod_allow_teleport_client", "0") -- Run the console command "say hi" when you click it ( command, args )
 			RunConsoleCommand("vr_pickup_disable_client", "0") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vrmod_pickup_weight", "100") -- Run the console command "say hi" when you click it ( command, args )
+			RunConsoleCommand("vrmod_pickup_weight", "333") -- Run the console command "say hi" when you click it ( command, args )
 			RunConsoleCommand("vrmod_pickup_range", "1.1") -- Run the console command "say hi" when you click it ( command, args )
 			RunConsoleCommand("vrmod_pickup_limit", "1") -- Run the console command "say hi" when you click it ( command, args )
 		end
+
+		--****************************
+		
+		local MenuTab03 = vgui.Create("DPanel", sheet)
+        sheet:AddSheet("Non-VR Weapons", MenuTab03, "icon16/gun.png")
+        MenuTab03.Paint = function(self, w, h) end
+        local dropenable_checkbox = MenuTab03:Add("DCheckBoxLabel")
+        dropenable_checkbox:SetPos(20, 10)
+        dropenable_checkbox:SetText("Drop weapon")
+        dropenable_checkbox:SetConVar("vrmod_weapondrop_enable")
+        dropenable_checkbox:SizeToContents()
+        local dropmode_checkbox = MenuTab03:Add("DCheckBoxLabel")
+        dropmode_checkbox:SetPos(20, 40)
+        dropmode_checkbox:SetText("Trash Weapon on Drop")
+        dropmode_checkbox:SetConVar("vrmod_weapondrop_trashwep")
+        dropmode_checkbox:SizeToContents()
+
 
 		
 		--MenuTab03 "1" end
@@ -319,30 +336,13 @@ hook.Add(
 		end
 		
 		local sheet = vgui.Create("DPropertySheet", frame.DPropertySheet)
-        frame.DPropertySheet:AddSheet("Non-VR Weapons", sheet)
-        sheet:Dock(FILL)
-        local MenuTab12 = vgui.Create("DPanel", sheet)
-        sheet:AddSheet("Non-VR Weapons", MenuTab12, "icon16/gun.png")
-        MenuTab12.Paint = function(self, w, h) end
-        local dropenable_checkbox = MenuTab12:Add("DCheckBoxLabel")
-        dropenable_checkbox:SetPos(20, 10)
-        dropenable_checkbox:SetText("Drop weapon")
-        dropenable_checkbox:SetConVar("vrmod_weapondrop_enable")
-        dropenable_checkbox:SizeToContents()
-        local dropmode_checkbox = MenuTab12:Add("DCheckBoxLabel")
-        dropmode_checkbox:SetPos(20, 40)
-        dropmode_checkbox:SetText("Trash Weapon on Drop")
-        dropmode_checkbox:SetConVar("vrmod_weapondrop_trashwep")
-        dropmode_checkbox:SizeToContents()
-
-		local sheet = vgui.Create("DPropertySheet", frame.DPropertySheet)
-        frame.DPropertySheet:AddSheet("VRMelee", sheet)
+        frame.DPropertySheet:AddSheet("Melee", sheet)
         sheet:Dock(FILL)
         local MenuTabmelee = vgui.Create("DPanel", sheet)
         sheet:AddSheet("VRMelee1", MenuTabmelee, "icon16/briefcase.png")
         MenuTabmelee.Paint = function(self, w, h) end
         local form = vgui.Create("DForm", sheet)
-        form:SetName("VRMelee")
+        form:SetName("Melee")
         form:Dock(TOP)
         form.Header:SetVisible(false)
         form.Paint = function(self, w, h) end
@@ -357,9 +357,6 @@ hook.Add(
         form:NumSlider("Melee Delay", "vrmelee_delay", 0.01, 1, 2)
         form:CheckBox("Fist Collision", "vrmelee_fist_collision")
         form:CheckBox("Fist Collision Visible", "vrmelee_fist_visible")
-        form:CheckBox("ragdoll wide pickup", "vrmelee_ragdoll_pickup")
-        form:NumSlider("ragdoll pickup range", "vrmelee_ragdollpickup_range",0,40,1)
         form:TextEntry("Collision Model", "vrmelee_fist_collisionmodel")
-
 end)
 

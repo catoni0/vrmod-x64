@@ -269,7 +269,7 @@ elseif SERVER then
 				pickupCount = pickupCount + 1
 				if pickupController ~= nil or v ~= nil then
 					local tmp_object  = v:GetPhysicsObject()
-					if IsValid(ent) then                                                                                                
+					if IsValid(tmp_object) then                                                                                                
 						pickupController:AddToMotionController(tmp_object)
 						tmp_object:PhysWake()                                                                         
 					else                                                                                                                

@@ -1,5 +1,28 @@
 AddCSLuaFile()
 if SERVER then
+
+    local blacklist = {
+        "weapon_fists",
+        "piss_swep",
+        "weapon_bsmod_punch",
+        "weapon_vrmod_empty",
+        "weapon_haax_vr",
+        "alex_matrix_stopbullets",
+        "blink",
+        "spartan_kick",
+    }
+
+    local function InBlackList(weaponClass)                                                                          
+        for _, v in ipairs(blacklist) do                                                                               
+            if v == weaponClass then                                                                                    
+                return true                                                                                             
+            end                                                                                                         
+        end                                                                                                             
+        return false                                                                                                    
+    end   
+
+
+
     util.AddNetworkString("ChangeWeapon")
     util.AddNetworkString("DropWeapon")
     util.AddNetworkString("SelectEmptyWeapon")
@@ -28,8 +51,7 @@ if SERVER then
             local lhandvel = net.ReadVector()
             local lhandangvel = net.ReadVector()
             local wep = ply:GetActiveWeapon()
-            if IsValid(wep) and not ply:InVehicle() then
-
+            if IsValid(wep) and not ply:InVehicle() and not InBlackList(wep:GetClass()) then
                 local modelname = wep:GetModel()
                 local guninhandpos = vrmod.GetRightHandPos(ply)
                 local guninhandang = vrmod.GetRightHandAng(ply)

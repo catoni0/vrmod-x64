@@ -1,6 +1,4 @@
-This is an optimization project aimed to create stable all in-one-package for gmod x64. 
-
-Initially I was trying to make a VRmod to work on Linux + gmod 64. 
+Initially the goal was to make a VRmod to work on Linux + gmod 64. 
 
 Pescorr's Semi- Offical Version didn't not start, so I integrated most or the changes that worked for me into the Catse's original version. 
 

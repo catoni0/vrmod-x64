@@ -1,7 +1,8 @@
-"VertexlitGeneric"
+"UnlitGeneric"
 {
 	"$basetexture"		"vrmod/tpbeam"
-	"$vertexcolor"		1
+	//"$vertexcolor"		1
+	"$translucent"		1
 	"$model" 1
 
 	"Proxies"

@@ -1,7 +1,7 @@
 **What?**
 
 Attempt to fix, stabilize and optimize VRmod for Garry's Mod x64. 
-Developed and tested with Quest 2 and Linux OS. 
+Developed and tested with Quest 2 on Linux OS. 
 Work in progress at early stage, don’t have high expectations. :)
 
 Pescorr's Semi- Offical Version didn't not start, so I integrated most or the changes that worked for me into the Catse's original version. Additionally I test and fix related addons and try to optimize the whole thing as one big project. 
@@ -30,6 +30,8 @@ https://github.com/catoni0/vrmod-module-master/tree/main/install
 **Known issues:**
 
 In order to restart the vrmod, it’s required to restart the game, otherwise the it would be pixelated mess in HMD
+
+
 Need to install and launch original VRmod by Catse once
 
 

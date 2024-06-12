@@ -37,10 +37,14 @@ Need to install and launch original VRmod by Catse once
 
 **The projects is reorganized and contains works of various authors:**
 
-Cats - original VRmod creator
+Catse - original VRmod creator
+
 Pescorr - semiofficial VRmod creator, melee, hostler (I used the code to drop the weapons on release) 
+
 Wheatley126 - VRmod-Plus
+
 Hugo - manual pickup,simple hand physics and hl2 weapon replacer
+
 Arctic - ArcVR
 
 Might be more, contact me to be included

@@ -300,13 +300,31 @@ if CLIENT then
 		
 		local hfovLeft = displayCalculations.left.HorizontalFOV
 		local hfovRight = displayCalculations.right.HorizontalFOV
+
 		local aspectLeft = displayCalculations.left.AspectRatio
 		local aspectRight = displayCalculations.right.AspectRatio
 		local ipd = displayInfo.TransformRight[1][4]*2
 		local eyez = displayInfo.TransformRight[3][4]
-		--
-		
-		
+		--debug
+		--[[
+		print("vMin: " .. vMin)
+		print("vMax: " .. vMax)
+		print("uMinLeft: " .. uMinLeft)
+		print("uMaxLeft: " .. uMaxLeft)
+		print("vMinLeft: " .. vMinLeft)
+		print("vMaxLeft: " .. vMaxLeft)
+		print("uMinRight: " .. uMinRight)
+		print("uMaxRight: " .. uMaxRight)
+		print("vMinRight: " .. vMinRight)
+		print("vMaxRight: " .. vMaxRight)
+		print("hfovLeft: " .. hfovLeft)
+		print("hfovRight: " .. hfovRight)
+		print("aspectLeft: " .. aspectLeft)
+		print("aspectRight: " .. aspectRight)
+		print("ipd: " .. ipd)
+		print("eyez: " .. eyez)
+		--]]
+
 		--set up active bindings
 		VRMOD_SetActionManifest("vrmod/vrmod_action_manifest.txt")
 		VRMOD_SetActiveActionSets("/actions/base", LocalPlayer():InVehicle() and "/actions/driving" or "/actions/main")

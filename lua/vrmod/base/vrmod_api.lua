@@ -1,5 +1,10 @@
 local addonVersion = 200
-local requiredModuleVersion = 23
+local requiredModuleVersion = nil
+if system.IsLinux() then
+	requiredModuleVersion = 23
+else
+	requiredModuleVersion = 21
+end
 local latestModuleVersion = 23
 
 g_VR = g_VR or {}
@@ -37,8 +42,16 @@ if CLIENT then
 	
 	function vrmod.GetStartupError()
 		local error = nil
+		local moduleFile = nil
 		if g_VR.moduleVersion == 0 then
-			if not file.Exists("lua/bin/gmcl_vrmod_linux64.dll","GAME") then
+			if system.IsLinux() then
+				moduleFile = "lua/bin/gmcl_vrmod_linux64.dll"
+			else
+				moduleFile = "lua/bin/gmcl_vrmod_win32.dll"
+			end
+
+
+			if not file.Exists(moduleFile,"GAME") then
 				error = "Module not installed. Read the workshop description for instructions.\n"
 			else
 				error = "Failed to load module\n"

@@ -267,6 +267,17 @@ if CLIENT then
 		VRMOD_ShareTextureFinish()
 		
 		--
+
+		function printMatrix(matrix, name)
+			print(name .. ":")
+			for i = 1, #matrix do
+				for j = 1, #matrix[i] do
+					io.write(matrix[i][j] .. "\t")
+				end
+				io.write("\n")
+			end
+			print("\n")
+		end
 		local displayCalculations = { left = {}, right = {}}
 		
 		for k,v in pairs(displayCalculations) do
@@ -286,16 +297,34 @@ if CLIENT then
 			v.HorizontalOffset = xoffset
 			v.VerticalOffset = yoffset
 		end
+
 		local vMin = system.IsWindows() and 0 or 1
-		local vMax = system.IsWindows() and 1 or 0
-		local uMinLeft = 0.0 + displayCalculations.left.HorizontalOffset * 0.25
-		local uMaxLeft = 0.5 + displayCalculations.left.HorizontalOffset * 0.25
-		local vMinLeft = vMin - displayCalculations.left.VerticalOffset * 0.5
-		local vMaxLeft = vMax - displayCalculations.left.VerticalOffset * 0.5
-		local uMinRight = 0.5 + displayCalculations.right.HorizontalOffset * 0.25
-		local uMaxRight = 1.0 + displayCalculations.right.HorizontalOffset * 0.25
-		local vMinRight = vMin - displayCalculations.right.VerticalOffset * 0.5
-		local vMaxRight = vMax - displayCalculations.right.VerticalOffset * 0.5
+		local vMax =  system.IsWindows() and 1 or 0
+		local hMult = 0.25
+		local vMult = 0.25
+		local vMinLeft =  nil
+		local vMaxLeft = nil
+		local vMinRight = nil
+		local vMaxRight = nil
+
+		local uMinLeft =  0.0 + displayCalculations.left.HorizontalOffset * hMult
+		local uMaxLeft = 0.5 + displayCalculations.left.HorizontalOffset * hMult
+		local uMinRight = 0.5 + displayCalculations.right.HorizontalOffset * hMult
+		local uMaxRight = 1.0 + displayCalculations.right.HorizontalOffset * hMult
+
+		if system.IsLinux() then
+			vMinLeft = vMin + displayCalculations.left.VerticalOffset * vMult
+			vMaxLeft = vMax + displayCalculations.left.VerticalOffset * vMult
+			vMinRight = vMin + displayCalculations.right.VerticalOffset * vMult
+			vMaxRight = vMax + displayCalculations.right.VerticalOffset * vMult
+		else
+			vMinLeft = vMin - displayCalculations.left.VerticalOffset * vMult
+			vMaxLeft = vMax - displayCalculations.left.VerticalOffset * vMult
+			vMinRight = vMin - displayCalculations.right.VerticalOffset * vMult
+			vMaxRight = vMax - displayCalculations.right.VerticalOffset * vMult
+			
+		end
+
 		VRMOD_SetSubmitTextureBounds(uMinLeft, vMinLeft, uMaxLeft, vMaxLeft, uMinRight, vMinRight, uMaxRight, vMaxRight)
 		
 		local hfovLeft = displayCalculations.left.HorizontalFOV
@@ -305,25 +334,6 @@ if CLIENT then
 		local aspectRight = displayCalculations.right.AspectRatio
 		local ipd = displayInfo.TransformRight[1][4]*2
 		local eyez = displayInfo.TransformRight[3][4]
-		--debug
-		--[[
-		print("vMin: " .. vMin)
-		print("vMax: " .. vMax)
-		print("uMinLeft: " .. uMinLeft)
-		print("uMaxLeft: " .. uMaxLeft)
-		print("vMinLeft: " .. vMinLeft)
-		print("vMaxLeft: " .. vMaxLeft)
-		print("uMinRight: " .. uMinRight)
-		print("uMaxRight: " .. uMaxRight)
-		print("vMinRight: " .. vMinRight)
-		print("vMaxRight: " .. vMaxRight)
-		print("hfovLeft: " .. hfovLeft)
-		print("hfovRight: " .. hfovRight)
-		print("aspectLeft: " .. aspectLeft)
-		print("aspectRight: " .. aspectRight)
-		print("ipd: " .. ipd)
-		print("eyez: " .. eyez)
-		--]]
 
 		--set up active bindings
 		VRMOD_SetActionManifest("vrmod/vrmod_action_manifest.txt")

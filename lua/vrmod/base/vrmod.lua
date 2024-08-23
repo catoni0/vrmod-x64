@@ -266,18 +266,6 @@ if CLIENT then
 		g_VR.rt = GetRenderTarget( "vrmod_rt".. tostring(SysTime()), rtWidth, rtHeight)
 		VRMOD_ShareTextureFinish()
 		
-		--
-
-		function printMatrix(matrix, name)
-			print(name .. ":")
-			for i = 1, #matrix do
-				for j = 1, #matrix[i] do
-					io.write(matrix[i][j] .. "\t")
-				end
-				io.write("\n")
-			end
-			print("\n")
-		end
 		local displayCalculations = { left = {}, right = {}}
 		
 		for k,v in pairs(displayCalculations) do

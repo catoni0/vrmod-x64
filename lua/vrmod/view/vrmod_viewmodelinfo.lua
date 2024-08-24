@@ -12,15 +12,15 @@ if CLIENT then
 		offsetAng = Angle(0, 0, 0),
 	}
 
-	g_VR.viewModelInfo.weapon_physgun = {
-		offsetPos = Vector(-24.5, 13.4, 14.5),
-		offsetAng = Angle(0, 0, 0),
-	}
+	-- g_VR.viewModelInfo.weapon_physgun = {
+	-- 	offsetPos = Vector(-24.5, 13.4, 14.5),
+	-- 	offsetAng = Angle(0, 0, 0),
+	-- }
 	
-	g_VR.viewModelInfo.weapon_physcannon = {
-		offsetPos = Vector(-24.5, 13.4, 14.5),
-		offsetAng = Angle(0, 0, 0),
-	}
+	-- g_VR.viewModelInfo.weapon_physcannon = {
+	-- 	offsetPos = Vector(-24.5, 13.4, 14.5),
+	-- 	offsetAng = Angle(0, 0, 0),
+	-- }
 	
 	
 	g_VR.viewModelInfo.weapon_shotgun = {

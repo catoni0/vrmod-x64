@@ -33,7 +33,7 @@ if CLIENT then
 	
 	--todo move some of these to the files where they belong
 	vrmod.AddCallbackedConvar("vrmod_althead", nil, "0")
-	vrmod.AddCallbackedConvar("vrmod_autostart", nil, "1")
+	vrmod.AddCallbackedConvar("vrmod_autostart", nil, "0")
 	vrmod.AddCallbackedConvar("vrmod_scale", nil, "32.7")
 	vrmod.AddCallbackedConvar("vrmod_heightmenu", nil, "1")
 	vrmod.AddCallbackedConvar("vrmod_floatinghands", nil, "0")

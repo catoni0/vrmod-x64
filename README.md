@@ -14,6 +14,7 @@ VRmod and it's parts such as hand physics,melee attacks and such are maintained 
 
 * In order to restart the vrmod on Linux native build, it’s required to reload the map/restart game, otherwise the it would be pixelated mess in HMD
 * Might Need to install and launch original VRmod once
+* For some reason some maps on the native build will not work without [this](https://github.com/SligWolf/sligwolf_addon_base/releases/tag/v2023-07-28) and [that](https://steamcommunity.com/sharedfiles/filedetails/?id=3008753645) (older version)
 
 **Installation:**
 

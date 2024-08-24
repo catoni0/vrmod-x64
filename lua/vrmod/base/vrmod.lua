@@ -249,6 +249,7 @@ if CLIENT then
 		
 		VRMOD_Shutdown() --in case we're retrying after an error and shutdown wasn't called
 		
+		
 		if VRMOD_Init() == false then
 			print("vr init failed")
 			return

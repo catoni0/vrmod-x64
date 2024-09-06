@@ -289,33 +289,19 @@ if CLIENT then
 
 		local vMin = system.IsWindows() and 0 or 1
 		local vMax =  system.IsWindows() and 1 or 0
-		local hMult = 0.25
-		local vMult = 0.25
-		local vMinLeft =  nil
-		local vMaxLeft = nil
-		local vMinRight = nil
-		local vMaxRight = nil
-
-		local uMinLeft =  0.0 + displayCalculations.left.HorizontalOffset * hMult
-		local uMaxLeft = 0.5 + displayCalculations.left.HorizontalOffset * hMult
-		local uMinRight = 0.5 + displayCalculations.right.HorizontalOffset * hMult
-		local uMaxRight = 1.0 + displayCalculations.right.HorizontalOffset * hMult
-
-		if system.IsLinux() then
-			vMinLeft = vMin + displayCalculations.left.VerticalOffset * vMult
-			vMaxLeft = vMax + displayCalculations.left.VerticalOffset * vMult
-			vMinRight = vMin + displayCalculations.right.VerticalOffset * vMult
-			vMaxRight = vMax + displayCalculations.right.VerticalOffset * vMult
-		else
-			vMinLeft = vMin - displayCalculations.left.VerticalOffset * vMult
-			vMaxLeft = vMax - displayCalculations.left.VerticalOffset * vMult
-			vMinRight = vMin - displayCalculations.right.VerticalOffset * vMult
-			vMaxRight = vMax - displayCalculations.right.VerticalOffset * vMult
-			
-		end
+		local vFactor = system.IsLinux() and 0.21 or 0.5
+		local hFactor = system.IsLinux() and 0.21 or 0.25
+		local vMinLeft = vMin - math.abs(displayCalculations.left.VerticalOffset * vFactor)
+		local vMaxLeft = vMax - math.abs(displayCalculations.left.VerticalOffset * vFactor)
+		local vMinRight = vMin - math.abs(displayCalculations.right.VerticalOffset * vFactor)
+		local vMaxRight = vMax - math.abs(displayCalculations.right.VerticalOffset * vFactor)
+		local uMinLeft =  0.0 + displayCalculations.left.HorizontalOffset * hFactor
+		local uMaxLeft = 0.5 + displayCalculations.left.HorizontalOffset * hFactor
+		local uMinRight = 0.5 + displayCalculations.right.HorizontalOffset * hFactor
+		local uMaxRight = 1.0 + displayCalculations.right.HorizontalOffset * hFactor
 
 		VRMOD_SetSubmitTextureBounds(uMinLeft, vMinLeft, uMaxLeft, vMaxLeft, uMinRight, vMinRight, uMaxRight, vMaxRight)
-		
+
 		local hfovLeft = displayCalculations.left.HorizontalFOV
 		local hfovRight = displayCalculations.right.HorizontalFOV
 

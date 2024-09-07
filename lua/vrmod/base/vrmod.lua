@@ -289,8 +289,8 @@ if CLIENT then
 
 		local vMin = system.IsWindows() and 0 or 1
 		local vMax =  system.IsWindows() and 1 or 0
-		local vFactor = system.IsLinux() and 0.21 or 0.5
-		local hFactor = system.IsLinux() and 0.21 or 0.25
+		local vFactor = system.IsLinux() and 0.22 or 0.5
+		local hFactor = system.IsLinux() and 0.216 or 0.25
 		local vMinLeft = vMin - math.abs(displayCalculations.left.VerticalOffset * vFactor)
 		local vMaxLeft = vMax - math.abs(displayCalculations.left.VerticalOffset * vFactor)
 		local vMinRight = vMin - math.abs(displayCalculations.right.VerticalOffset * vFactor)

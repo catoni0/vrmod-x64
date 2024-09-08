@@ -12,15 +12,15 @@ if CLIENT then
 		offsetAng = Angle(0, 0, 0),
 	}
 
-	-- g_VR.viewModelInfo.weapon_physgun = {
-	-- 	offsetPos = Vector(-24.5, 13.4, 14.5),
-	-- 	offsetAng = Angle(0, 0, 0),
-	-- }
+	g_VR.viewModelInfo.weapon_physgun = {
+		offsetPos = Vector(-34.5, 13.4, 14.5),
+		offsetAng = Angle(0, 0, 0),
+	}
 	
-	-- g_VR.viewModelInfo.weapon_physcannon = {
-	-- 	offsetPos = Vector(-24.5, 13.4, 14.5),
-	-- 	offsetAng = Angle(0, 0, 0),
-	-- }
+	g_VR.viewModelInfo.weapon_physcannon = {
+		offsetPos = Vector(-34.5, 13.4, 10.5),
+		offsetAng = Angle(0, 0, 0),
+	}
 	
 	
 	g_VR.viewModelInfo.weapon_shotgun = {
@@ -59,6 +59,7 @@ if CLIENT then
 	g_VR.viewModelInfo.weapon_vfirethrower = {
 		offsetPos = Vector(13, 2, -6),
 		offsetAng = Angle(0, 0, 0),
+		wrongMuzzleAng = true
 	}
 
 	g_VR.swepOriginalFovs = g_VR.swepOriginalFovs or {}

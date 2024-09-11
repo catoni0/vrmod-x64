@@ -12,7 +12,7 @@ VRmod and its components, such as hand physics and melee attacks, are maintained
 Apart from that there are rendering problems on Linux build and image is not optimized Quest 2/3. 
 
 
-**Additional info abot this version of VRmod:**
+**Additional info about this version of VRmod:**
 
 * Integrated collision physics, melee, (fixed) manual pickup
 * Developed and tested with Quest 2/Quest 3 on Linux OS (kUbuntu 24.04)

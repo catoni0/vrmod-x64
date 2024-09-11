@@ -1,20 +1,30 @@
-**Attempt to fix, stabilize and optimize VRmod for Garry's Mod x64.**
+**VRmod for Native Linux Garry's Mod x64 build - AIO Package**
 
-Developed and tested with Quest 2/Quest 3 on Linux OS (kUbuntu 24.04)
+While Native Linux build have some issues, it loads way faster than under Proton.
 
-Native Linux gmod build have some issues, but loads way faster on native Linux build, If you want more stability Proton GE 9-10 Proton 9.0-2. 
+If you want more stability use Proton GE 9-10 or Proton 9.0-2.
 
-Should work on Windows too
 
 **Optimization problem:**
 
-VRmod and it's parts such as hand physics,melee attacks and such are maintained by different authors. In some cases like with physics mod and melee mod, both create exactly the same props to be used as collision detection, so ideally one must avoid such cases.
+VRmod and its components, such as hand physics and melee attacks, are maintained by different authors. In some cases, they conflict with each other, and some addons are abandoned or broken.
+
+Apart from that there are rendering problems on Linux build and image is not optimized Quest 2/3. 
+
+
+**Additional info abot this version of VRmod:**
+
+* Integrated collision physics, melee, (fixed) manual pickup
+* Developed and tested with Quest 2/Quest 3 on Linux OS (kUbuntu 24.04)
+* Mostly fixed rendering issues on Linux native build
+* Tailored for Quest 3 to avoid fish eye effect and distorted image when tilting head.
+* Should work on Windows too (not tested)
+
 
 **Known issues:**
 
 * In order to restart the vrmod on Linux native build, it’s required to reload the map/restart game, otherwise the it would be pixelated mess in HMD
 * Might Need to install and launch original VRmod once
-* For some reason some maps on the native build will not work without [this](https://github.com/SligWolf/sligwolf_addon_base/releases/tag/v2023-07-28) and [that](https://steamcommunity.com/sharedfiles/filedetails/?id=3008753645) (older version)
 
 **Installation:**
 
@@ -22,14 +32,28 @@ Make sure you can run gmod x64 on your system. On Native Linux version it’s re
 
 Either [download precompiled module](https://github.com/catoni0/vrmod-module-master/tree/main/install) for native build or complie your own.
 
-I also uploaded control sheme to Steam under the "Doom Slayer" name for Quest2/3
+Place vrmod folder in HOME/.steam/steam/steamapps/common/GarrysMod/garrysmod/addons/
 
-**The projects is reorganized and contains works of various authors:**
 
-Catse, original VRmod creator
-Pescorr, semiofficial VRmod creator, melee, hostler (I used the code to drop the weapons on release)
-Wheatley126, VRmod-Plus
-Hugo, manual pickup,simple hand physics and hl2 weapon replacer
-Arctic for ArcVR
+**Credits:**
 
-Might be more, contact me to be included
+The projects is reorganized and contains works of various authors:
+
+
+*Catse*, original VRmod creator
+
+*Pescorr*, semiofficial VRmod creator, melee, hostler (I used the code to drop the weapons on release)
+
+*Wheatley126*, VRmod-Plus
+
+*Hugo*, manual pickup,simple hand physics and hl2 weapon replacer
+
+*Arctic* for ArcVR
+
+SligWolf for alpha 0 image from SW_ADDONS
+
+
+Might be more, contact me to be included...
+
+
+Big Thank You to *Grocel* for helping me to figure how SW_Addons unintentianally fixed rendering issues

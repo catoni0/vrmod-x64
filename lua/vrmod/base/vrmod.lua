@@ -526,7 +526,7 @@ if CLIENT then
 		end)
 		
 		g_VR.usingWorldModels = convars.vrmod_useworldmodels:GetBool()
-		
+
 		if not g_VR.usingWorldModels then
 			overrideConvar("viewmodel_fov", GetConVar("fov_desired"):GetString())
 	
@@ -575,8 +575,11 @@ if CLIENT then
 		hook.Add("ShouldDrawLocalPlayer","vrutil_hook_shoulddrawlocalplayer",function(ply)
 			return g_VR.allowPlayerDraw
 		end)
-		
 
+		if system.IsLinux then
+		 	AddCSLuaFile()
+		 	include("vrmod/base/fix.lua")
+		end
 	
 	function VRUtilClientExit()
 		if not g_VR.active then return end
@@ -588,6 +591,8 @@ if CLIENT then
 		VRUtilNetworkCleanup()
 		
 		vrmod.StopLocomotion()
+
+		
 		
 		if IsValid(g_VR.viewModel) and g_VR.viewModel:GetClass() == "class C_BaseFlex" then
 			g_VR.viewModel:Remove()

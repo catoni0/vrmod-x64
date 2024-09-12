@@ -207,18 +207,25 @@ if CLIENT then
 		print("========================================================================")
 	end )
 	
-	local moduleLoaded = false
-	g_VR.moduleVersion = 0
-	if file.Exists("lua/bin/gmcl_vrmod_win32.dll", "GAME") then
-		local tmp = vrmod
-		vrmod = {}
-		moduleLoaded = pcall(function() require("vrmod") end)
-		for k,v in pairs(vrmod) do
-			_G["VRMOD_"..k] = v
+		local moduleLoaded = false
+		g_VR.moduleVersion = 0
+		if system.IsLinux() then
+			moduleFile = "lua/bin/gmcl_vrmod_linux64.dll"
+		else
+			moduleFile = "lua/bin/gmcl_vrmod_win32.dll"
 		end
-		vrmod = tmp
-		g_VR.moduleVersion = moduleLoaded and VRMOD_GetVersion and VRMOD_GetVersion() or 0
-	end
+
+
+		if file.Exists(moduleFile, "GAME") then
+			local tmp = vrmod
+			vrmod = {}
+			moduleLoaded = pcall(function() require("vrmod") end)
+			for k,v in pairs(vrmod) do
+				_G["VRMOD_"..k] = v
+			end
+			vrmod = tmp
+			g_VR.moduleVersion = moduleLoaded and VRMOD_GetVersion and VRMOD_GetVersion() or 0
+		end
 	
 	local convarOverrides = {}
 	
@@ -241,12 +248,13 @@ if CLIENT then
 	end
 	
 	function VRUtilClientStart()
+
 		local error = vrmod.GetStartupError()
 		if error then
 			print("VRMod failed to start: "..error)
 			return
 		end
-		
+
 		VRMOD_Shutdown() --in case we're retrying after an error and shutdown wasn't called
 		
 		
@@ -255,6 +263,7 @@ if CLIENT then
 			return
 		end
 		
+
 		local displayInfo = VRMOD_GetDisplayInfo(1,10)
 
 		local rtWidth, rtHeight = displayInfo.RecommendedWidth*2, displayInfo.RecommendedHeight
@@ -576,10 +585,12 @@ if CLIENT then
 			return g_VR.allowPlayerDraw
 		end)
 
-		if system.IsLinux then
-		 	AddCSLuaFile()
-		 	include("vrmod/base/fix.lua")
-		end
+		hook.Add("VRMod_Start", "RenderingFix", function()
+			for k, ply in ipairs(player.GetHumans()) do
+				if !IsValid(ply) then continue end
+				ply:GetActiveWeapon():SetMaterial("models/sligwolf/unique_props/nodraw")
+			end
+		end)
 	
 	function VRUtilClientExit()
 		if not g_VR.active then return end
@@ -617,6 +628,7 @@ if CLIENT then
 		hook.Remove("PreDrawPlayerHands","vrutil_hook_predrawplayerhands")
 		hook.Remove("PreDrawViewModel","vrutil_hook_predrawviewmodel")
 		hook.Remove("ShouldDrawLocalPlayer","vrutil_hook_shoulddrawlocalplayer")
+		hook.Remove("VRMod_Start", "RenderingFix")
 		
 		g_VR.tracking = {}
 		g_VR.threePoints = false
@@ -637,6 +649,7 @@ if CLIENT then
 			VRUtilClientExit()
 		end
 	end)
+
 end
 		
 --elseif SERVER then

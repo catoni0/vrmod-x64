@@ -64,7 +64,9 @@ vrmod.AddInGameMenuItem("Laser pointer", 2, 2, function()
         LocalPlayer():ConCommand("vrmod_togglelaserpointer")
 end)
 
-
+vrmod.AddInGameMenuItem("Respawn", 4, 2, function()
+	LocalPlayer():ConCommand("kill")
+end)
 --more space
 
 vrmod.AddInGameMenuItem("VR EXIT", 5, 2, function()

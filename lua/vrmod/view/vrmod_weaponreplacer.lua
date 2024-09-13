@@ -5,10 +5,9 @@ if CLIENT then return end
 -- Now with VJ and CSS weapons.
 
 
-VRWeps = {}             -- creating a (currently) empty table with the name 'VRWeps'
+VRWeps = {}           
 
-VRWeps.Replacer = {                 -- defining the keys (flatscreen weapons) and the corresponding values (VR weapons) of the table for use later
---HL2
+VRWeps.Replacer = {                 
 ["weapon_crowbar"] = "vr_crowbar",
 ["weapon_pistol"] = "arcticvr_hl2_pistol",
 ["weapon_357"] = "arcticvr_hl2_357",
@@ -100,8 +99,6 @@ end)
 hook.Add ("PlayerInitialSpawn", "WeaponReplacerInitialState", function (ply)
     if IsValid(ply) then
     PlayerVR = false
-    -- print (PlayerVR)
-    -- print("spawned")
     end
 end)
 
@@ -109,8 +106,6 @@ hook.Add("VRMod_Exit", "WeaponReplacerDeActivator", function (ply)
 
     if IsValid(ply) then
         PlayerVR = false
-        -- print (PlayerVR)
-        -- print ("exited")
     end
 end)
 
@@ -118,8 +113,6 @@ hook.Add("VRMod_Start", "WeaponReplacerActivator", function (ply)
 
     if IsValid(ply) then
         PlayerVR = true
-        -- print (PlayerVR)
-        -- print ("started")
     end
 end)
 
@@ -130,9 +123,6 @@ hook.Add("VRMod_Pickup", "WeaponPickupReplacerVR", function (ply, weapon)
 	if PlayerVR == true then
       		local Wepper = weapon:GetClass()                                
 		local WepperVR = VRWeps.Replacer[Wepper]                        
-		--print(Wepper)
-		--print(WepperVR)
-
         	if WepperVR and engine.ActiveGamemode() != ("lambda") then
         		ply:StripWeapon(Wepper)
         		ply:Give(WepperVR, true)

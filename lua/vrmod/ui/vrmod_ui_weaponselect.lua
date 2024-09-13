@@ -1,6 +1,5 @@
 if SERVER then return end
 
-
 defFont = "vrmod_Trebuchet24"
 
 surface.CreateFont(
@@ -15,7 +14,6 @@ surface.CreateFont(
 		antialias = true,
 	}
 )
-
 
 surface.CreateFont(
 	"vrmod_font_mid",

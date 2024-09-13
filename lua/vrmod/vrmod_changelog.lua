@@ -4,8 +4,13 @@ local changelog = [[
 
 Version 200 - Gmod 64 Edition:
 - Re-organized the project structure
-- Integrated UI changes (attach to hand) from semi-official
+- Integrated UI changes (attach to hand) from semi-official (Pescorr)
 - Integrated fixed manual item pick up, simple hads physics and melee
+- Drop and pickup weapons - Pescorr
+- Integrated flat to vr weapon replacer
+- Fixed rendering issues on x64 Linux Native build
+- Adapted image for Quest 3 and Quest 2
+- Replaced icons with text on weapon selector due to the missing icons on custom weapons
 
 Version 133:
 -fixed teleport beam not stopping at playerclips

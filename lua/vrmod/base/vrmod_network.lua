@@ -632,7 +632,7 @@ if SERVER then
 			end
 			net.Send(ply)
 			timer.Simple(0,function()
-				new:AddEffects(EF_NODRAW) 
+				--new:AddEffects(EF_NODRAW) 
 				new:SetMaterial("models/sligwolf/unique_props/nodraw")
 			end)
 		end

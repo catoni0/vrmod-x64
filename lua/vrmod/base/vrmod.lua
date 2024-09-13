@@ -263,6 +263,9 @@ if CLIENT then
 			return
 		end
 		
+		if system.IsLinux then
+			RunConsoleCommand("mat_queue_mode", "1")
+		end
 
 		local displayInfo = VRMOD_GetDisplayInfo(1,10)
 

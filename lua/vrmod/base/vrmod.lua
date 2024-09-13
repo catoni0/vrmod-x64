@@ -340,8 +340,8 @@ if CLIENT then
 		overrideConvar("engine_no_focus_sleep", "0")
 		overrideConvar("pac_suppress_frames", "0")
 		overrideConvar("pac_override_fov", "1")
-		RunConsoleCommand("mat_queue_mode", "1")
-		RunConsoleCommand("gmod_mcore_test", "1")
+		overrideConvar("mat_queue_mode", "1")
+		overrideConvar("gmod_mcore_test", "1")
 		
 		--3D audio fix
 		hook.Add("CalcView","vrutil_hook_calcview",function(ply, pos, ang, fv)

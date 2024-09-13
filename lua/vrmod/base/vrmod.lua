@@ -12,7 +12,6 @@ if convars.vrmod_configversion:GetString() ~= convars.vrmod_configversion:GetDef
 	end)
 end
 
-
 if CLIENT then
 
 	g_VR.scale = 0
@@ -54,7 +53,6 @@ if CLIENT then
 		end
 	end)
 	
-
 	hook.Add("VRMod_Menu","vrmod_options",function(frame)
 		local form = frame.SettingsForm
 		form:CheckBox("Use floating hands", "vrmod_floatinghands")
@@ -257,22 +255,16 @@ if CLIENT then
 
 		VRMOD_Shutdown() --in case we're retrying after an error and shutdown wasn't called
 		
-		
 		if VRMOD_Init() == false then
 			print("vr init failed")
 			return
 		end
 		
-		if system.IsLinux then
-			RunConsoleCommand("mat_queue_mode", "1")
-		end
-
 		local displayInfo = VRMOD_GetDisplayInfo(1,10)
 
 		local rtWidth, rtHeight = displayInfo.RecommendedWidth*2, displayInfo.RecommendedHeight
 		if system.IsLinux() then
 			rtWidth, rtHeight = math.min(4096,rtWidth), math.min(4096,rtHeight) 
-
 		end
 		
 		VRMOD_ShareTextureBegin()
@@ -345,10 +337,11 @@ if CLIENT then
 		
 		g_VR.active = true
 		
-		overrideConvar("gmod_mcore_test", "0")
 		overrideConvar("engine_no_focus_sleep", "0")
 		overrideConvar("pac_suppress_frames", "0")
 		overrideConvar("pac_override_fov", "1")
+		RunConsoleCommand("mat_queue_mode", "1")
+		RunConsoleCommand("gmod_mcore_test", "1")
 		
 		--3D audio fix
 		hook.Add("CalcView","vrutil_hook_calcview",function(ply, pos, ang, fv)

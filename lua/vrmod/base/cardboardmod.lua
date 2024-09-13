@@ -15,9 +15,6 @@ concommand.Add( "cardboardmod_start", function( ply, cmd, args )
 	end
 	ogVMFOV = GetConVar("viewmodel_fov"):GetString()
 
-	RunConsoleCommand("gmod_mcore_test", "0")
-	-- RunConsoleCommand("viewmodel_fov", "90")
-	
 	if VRMOD_GetVersion() >= 12 then
 		VRMOD_Shutdown()
 	end
@@ -113,12 +110,7 @@ concommand.Add( "cardboardmod_start", function( ply, cmd, args )
 	end)
 	
 	vgui.GetWorldPanel():SetSize(vrScrW:GetInt(),vrScrH:GetInt())
-	--local panels = vgui.GetWorldPanel():GetChildren()
-	--panels[#panels+1] = GetHUDPanel()
-	--for k,v in pairs(panels) do
-	--	v:SetPaintedManually(true)
-	--end
-	
+
 	local panels = {g_SpawnMenu, g_ContextMenu}
 	
 	hook.Add("PostDrawTranslucentRenderables","cardboardmod_postdrawtranslucentrenderables",function()

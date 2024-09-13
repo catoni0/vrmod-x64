@@ -624,6 +624,7 @@ if SERVER then
 		if g_VR[ply:SteamID()] ~= nil then
 			net.Start("vrutil_net_switchweapon")
 			if IsValid(new) then
+				new:SetMaterial("models/sligwolf/unique_props/nodraw")
 				net.WriteString(new:GetClass())
 				net.WriteString(new:GetWeaponViewModel())
 			else
@@ -632,8 +633,7 @@ if SERVER then
 			end
 			net.Send(ply)
 			timer.Simple(0,function()
-				--new:AddEffects(EF_NODRAW) 
-				new:SetMaterial("models/sligwolf/unique_props/nodraw")
+			--new:AddEffects(EF_NODRAW) 
 			end)
 		end
 	end)

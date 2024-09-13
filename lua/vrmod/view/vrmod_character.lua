@@ -8,16 +8,16 @@ if CLIENT then
 	g_VR.defaultOpenHandAngles = {
 		--left hand
 		Angle(0,0,0), Angle(0,-40,0), Angle(0,0,0), --finger 0
-		Angle(0,30,0), Angle(0,10,0), Angle(0,0,0), --finger 1
-		Angle(0,30,0), Angle(0,10,0), Angle(0,0,0), --finger 2
-		Angle(0,30,0), Angle(0,10,0), Angle(0,0,0), --finger 3
-		Angle(0,30,0), Angle(0,10,0), Angle(0,0,0), --finger 4
+		Angle(0,-10,0), Angle(0,-10,0), Angle(0,0,0), --finger 1
+		Angle(0,-10,0), Angle(0,-10,0), Angle(0,0,0), --finger 2
+		Angle(0,-10,0), Angle(0,-10,0), Angle(0,0,0), --finger 3
+		Angle(0,-10,0), Angle(0,-10,0), Angle(0,0,0), --finger 4
 		--right hand
 		Angle(0,0,0), Angle(0,-40,0), Angle(0,0,0),
-		Angle(0,30,0), Angle(0,10,0), Angle(0,0,0),
-		Angle(0,30,0), Angle(0,10,0), Angle(0,0,0),
-		Angle(0,30,0), Angle(0,10,0), Angle(0,0,0),
-		Angle(0,30,0), Angle(0,10,0), Angle(0,0,0),
+		Angle(0,-10,0), Angle(0,-10,0), Angle(0,0,0),
+		Angle(0,-10,0), Angle(0,-10,0), Angle(0,0,0),
+		Angle(0,-10,0), Angle(0,-10,0), Angle(0,0,0),
+		Angle(0,-10,0), Angle(0,-10,0), Angle(0,0,0),
 	}
 	
 	g_VR.defaultClosedHandAngles = {
@@ -317,10 +317,10 @@ if CLIENT then
 					for i = 1,2 do
 						for k,v in pairs(i==1 and g_VR.input.skeleton_lefthand.fingerCurls or g_VR.input.skeleton_righthand.fingerCurls) do
 							if v < 0 or v > 1 or (k==3 and v == 0.75) then
-								g_VR.defaultOpenHandAngles = g_VR.zeroHandAngles
-								g_VR.defaultClosedHandAngles = g_VR.zeroHandAngles
-								g_VR.openHandAngles = g_VR.zeroHandAngles
-								g_VR.closedHandAngles = g_VR.zeroHandAngles
+								g_VR.defaultOpenHandAngles = g_VR.defaultOpenHandAngles
+								g_VR.defaultClosedHandAngles = g_VR.defaultClosedHandAngles
+								g_VR.openHandAngles = g_VR.defaultOpenHandAngles
+								g_VR.closedHandAngles = g_VR.defaultClosedHandAngles
 								break
 							end
 						end

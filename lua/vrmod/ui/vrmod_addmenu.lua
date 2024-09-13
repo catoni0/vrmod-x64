@@ -132,11 +132,11 @@ hook.Add(
 		GamePlay_defaultbutton:SetSize(160, 30) -- Set the size
 		-- A custom function run when clicked ( note the . instead of : )
 		GamePlay_defaultbutton.DoClick = function()
-			RunConsoleCommand("vrmod_allow_teleport_client", "0") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vr_pickup_disable_client", "0") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vrmod_pickup_weight", "333") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vrmod_pickup_range", "1.1") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vrmod_pickup_limit", "1") -- Run the console command "say hi" when you click it ( command, args )
+			RunConsoleCommand("vrmod_allow_teleport_client", "0") 
+			RunConsoleCommand("vr_pickup_disable_client", "0")
+			RunConsoleCommand("vrmod_pickup_weight", "333") 
+			RunConsoleCommand("vrmod_pickup_range", "1.1")
+			RunConsoleCommand("vrmod_pickup_limit", "1") 
 		end
 
 		--****************************
@@ -300,14 +300,14 @@ hook.Add(
 		HUD_defaultbutton:SetSize(160, 30) -- Set the size
 
 		HUD_defaultbutton.DoClick = function()
-			RunConsoleCommand("vrmod_hud", "1") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vrmod_hudcurve", "60") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vrmod_huddistance", "60") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vrmod_hudscale", "0.05") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vrmod_hudtestalpha", "0") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vrmod_test_ui_testver", "0") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vrmod_hudblacklist", "") -- Run the console command "say hi" when you click it ( command, args )
-			RunConsoleCommand("vrmod_hud_visible_quickmenukey", "0") -- Run the console command "say hi" when you click it ( command, args )
+			RunConsoleCommand("vrmod_hud", "1")
+			RunConsoleCommand("vrmod_hudcurve", "60") 
+			RunConsoleCommand("vrmod_huddistance", "60") 
+			RunConsoleCommand("vrmod_hudscale", "0.05") -
+			RunConsoleCommand("vrmod_hudtestalpha", "0") -
+			RunConsoleCommand("vrmod_test_ui_testver", "0")
+			RunConsoleCommand("vrmod_hudblacklist", "") 
+			RunConsoleCommand("vrmod_hud_visible_quickmenukey", "0")
 		end
 		
 		local sheet = vgui.Create("DPropertySheet", frame.DPropertySheet)

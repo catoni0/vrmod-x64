@@ -240,51 +240,42 @@ if CLIENT then
 		end
 	end
 
-	hook.Add(
-		"VRMod_Input",
-		"ui",
-		function(action, pressed)
-			if g_VR.menuFocus and action == "boolean_primaryfire" then
-				if pressed then
-					gui.InternalMousePressed(MOUSE_LEFT)
-				else
-					gui.InternalMouseReleased(MOUSE_LEFT)
-				end
-
-				VRUtilMenuRenderPanel(g_VR.menuFocus)
+	hook.Add("VRMod_Input","ui",function(action, pressed)
+		if g_VR.menuFocus and action == "boolean_primaryfire" then
+			if pressed then
+				gui.InternalMousePressed(MOUSE_LEFT)
+			else
+				gui.InternalMouseReleased(MOUSE_LEFT)
 			end
 
-			if g_VR.menuFocus and action == "boolean_secondaryfire" then
-				if pressed then
-					gui.InternalMousePressed(MOUSE_RIGHT)
-				else
-					gui.InternalMouseReleased(MOUSE_RIGHT)
-				end
-
-				VRUtilMenuRenderPanel(g_VR.menuFocus)
-			end
-
-			if g_VR.menuFocus and action == "boolean_sprint" then
-				if pressed then
-					gui.InternalMousePressed(MOUSE_MIDDLE)
-				else
-					gui.InternalMouseReleased(MOUSE_MIDDLE)
-				end
-
-				VRUtilMenuRenderPanel(g_VR.menuFocus)
-			end
-
+			VRUtilMenuRenderPanel(g_VR.menuFocus)
 		end
-	)
+
+		if g_VR.menuFocus and action == "boolean_secondaryfire" then
+			if pressed then
+				gui.InternalMousePressed(MOUSE_RIGHT)
+			else
+				gui.InternalMouseReleased(MOUSE_RIGHT)
+			end
+
+			VRUtilMenuRenderPanel(g_VR.menuFocus)
+		end
+
+		if g_VR.menuFocus and action == "boolean_sprint" then
+			if pressed then
+				gui.InternalMousePressed(MOUSE_MIDDLE)
+			else
+				gui.InternalMouseReleased(MOUSE_MIDDLE)
+			end
+
+			VRUtilMenuRenderPanel(g_VR.menuFocus)
+		end
+	end)
 end
 
-concommand.Add(
-	"vrmod_vgui_reset",
-	function()
-		for _, v in pairs(vgui.GetWorldPanel():GetChildren()) do
-			v:Remove()
-		end
-
-		RunConsoleCommand("spawnmenu_reload") -- It even removes spawnmenu, so we need to reload it
+concommand.Add("vrmod_vgui_reset",function()
+	for _, v in pairs(vgui.GetWorldPanel():GetChildren()) do
+		v:Remove()
 	end
-)
+	RunConsoleCommand("spawnmenu_reload") -- It even removes spawnmenu, so we need to reload it
+end)

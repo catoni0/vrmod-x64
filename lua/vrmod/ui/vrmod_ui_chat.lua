@@ -83,8 +83,6 @@ if CLIENT then
 		function chatPanel:Paint(w, h)
 		end
 
-		--surface.SetDrawColor( Color( 255, 0, 0, 255 ) )
-		--surface.DrawOutlinedRect(0,0,w,h)
 		function chatPanel:GetSize()
 			return 450, 310
 		end
@@ -124,8 +122,6 @@ if CLIENT then
 			function button:Paint(w, h)
 				surface.SetDrawColor(Color(0, 0, 0, 128))
 				surface.DrawRect(0, 0, w, h)
-				--surface.SetDrawColor( Color( 255, 0, 0, 255 ) )
-				--surface.DrawOutlinedRect(0,0,w,h)
 			end
 
 			button.OnMousePressed = function()

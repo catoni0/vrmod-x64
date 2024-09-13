@@ -584,27 +584,15 @@ if CLIENT then
 		hook.Add("ShouldDrawLocalPlayer","vrutil_hook_shoulddrawlocalplayer",function(ply)
 			return g_VR.allowPlayerDraw
 		end)
-
-		hook.Add("VRMod_Start", "RenderingFix", function()
-			for k, ply in ipairs(player.GetHumans()) do
-				if !IsValid(ply) then continue end
-				ply:GetActiveWeapon():SetMaterial("models/sligwolf/unique_props/nodraw")
-			end
-		end)
 	
 	function VRUtilClientExit()
 		if not g_VR.active then return end
 		
 		restoreConvarOverrides()
-		
 		VRUtilMenuClose()
-		
-		VRUtilNetworkCleanup()
-		
+		VRUtilNetworkCleanup()	
 		vrmod.StopLocomotion()
 
-		
-		
 		if IsValid(g_VR.viewModel) and g_VR.viewModel:GetClass() == "class C_BaseFlex" then
 			g_VR.viewModel:Remove()
 		end
@@ -628,19 +616,12 @@ if CLIENT then
 		hook.Remove("PreDrawPlayerHands","vrutil_hook_predrawplayerhands")
 		hook.Remove("PreDrawViewModel","vrutil_hook_predrawviewmodel")
 		hook.Remove("ShouldDrawLocalPlayer","vrutil_hook_shoulddrawlocalplayer")
-		hook.Remove("VRMod_Start", "RenderingFix")
 		
 		g_VR.tracking = {}
 		g_VR.threePoints = false
 		g_VR.sixPoints = false
-		
-
-		
-
-		VRMOD_Shutdown()
-		
 		g_VR.active = false
-		
+		VRMOD_Shutdown()
 		
 	end
 	
@@ -652,6 +633,4 @@ if CLIENT then
 
 end
 		
---elseif SERVER then
-	--	CreateConVar("vrmod_version", vrmod.GetVersion(), FCVAR_NOTIFY)
 end

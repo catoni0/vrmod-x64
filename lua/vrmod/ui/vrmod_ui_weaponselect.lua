@@ -1,10 +1,14 @@
 if SERVER then return end
+
+
+defFont = "vrmod_Trebuchet24"
+
 surface.CreateFont(
 	"vrmod_font_normal",
 	{
-		font = "Px IBM BIOS",
+		font = defFont,
 		extended = false,
-		size = 16,
+		size = 35,
 		weight = 0,
 		blursize = 0,
 		scanlines = 0,
@@ -16,8 +20,8 @@ surface.CreateFont(
 surface.CreateFont(
 	"vrmod_font_mid",
 	{
-		font = "Px IBM BIOS",
-		size = 13,
+		font = defFont,
+		size = 25,
 		weight = 600,
 		antialias = true,
 	}
@@ -26,9 +30,9 @@ surface.CreateFont(
 surface.CreateFont(
 	"vrmod_font_small",
 	{
-		font = "Px IBM BIOS",
+		font = defFont,
 		extended = false,
-		size = 7,
+		size = 15,
 		weight = 0,
 		blursize = 0,
 		scanlines = 0,
@@ -178,78 +182,71 @@ function VRUtilWeaponMenuOpen()
 		)
 	end
 
-	hook.Add(
-		"PreRender",
-		"vrutil_hook_renderweaponselect",
-		function()
-			local values = {}
-			values.hoveredItem = -1
-			local hoveredSlot, hoveredSlotPos = -1, -1
-			if g_VR.menuFocus == "weaponmenu" then
-				hoveredSlot, hoveredSlotPos = math.floor(g_VR.menuCursorX / 86), math.floor((g_VR.menuCursorY - 114) / 57)
-			end
-
-			for i = 1, #items do
-				if items[i].slot == hoveredSlot and items[i].actualSlotPos == hoveredSlotPos then
-					values.hoveredItem = i
-					break
-				end
-			end
-
-			values.health, values.suit = ply:Health(), ply:Armor()
-			values.clip, values.total, values.alt = 0, 0, 0
-			local wep = ply:GetActiveWeapon()
-			if IsValid(wep) then
-				values.clip, values.total, values.alt = wep:Clip1(), ply:GetAmmoCount(wep:GetPrimaryAmmoType()), ply:GetAmmoCount(wep:GetSecondaryAmmoType())
-			end
-
-			local changes = false
-			for k, v in pairs(values) do
-				if v ~= prevValues[k] then
-					changes = true
-					break
-				end
-			end
-
-			prevValues = values
-			if not changes then return end
-			VRUtilMenuRenderStart("weaponmenu")
-			--debug rendercount
-			--renderCount = renderCount + 1
-			--draw.SimpleText( renderCount, "HudSelectionText", 0, 512, Color( 255, 250, 0, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM )
-			--health
-			draw.RoundedBox(8, 0, 0, 145, 53, Color(0, 0, 0, 128))
-			draw.SimpleText("HEALTH", "vrmod_font_small", 10, 45, Color(255, values.health > 19 and 250 or 0, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-			draw.SimpleText(values.health, "vrmod_font_mid", 140, 50, Color(255, values.health > 19 and 250 or 0, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
-			--suit
-			draw.RoundedBox(8, 149, 0, 130, 53, Color(0, 0, 0, 128))
-			draw.SimpleText("SUIT", "vrmod_font_small", 165, 45, Color(255, 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-			draw.SimpleText(values.suit, "vrmod_font_mid", 270, 50, Color(255, 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
-			--ammo
-			draw.RoundedBox(8, 283, 0, 150, 53, Color(0, 0, 0, 128))
-			draw.SimpleText("AMMO", "vrmod_font_small", 290, 45, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-			draw.SimpleText(values.clip, "vrmod_font_mid", 338, 50, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-			draw.SimpleText(values.total, "vrmod_font_mid", 429, 47, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
-			draw.RoundedBox(8, 437, 0, 75, 53, Color(0, 0, 0, 128))
-			draw.SimpleText("ALT", "vrmod_font_small", 440, 45, Color(255, 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-			draw.SimpleText(values.alt, "vrmod_font_mid", 512, 50, Color(255, 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
-			--hovered item name
-			draw.RoundedBox(8, 0, 57, 512, 53, Color(0, 0, 0, 128))
-			draw.SimpleText(items[values.hoveredItem] and items[values.hoveredItem].title or "", "vrmod_font_mid", 256, 85, Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-			--weapon list/buttons
-			local buttonWidth, buttonHeight = 82, 53
-			local gap = (512 - buttonWidth * 6) / 5
-			for i = 1, #items do
-				local x, y = items[i].slot, items[i].actualSlotPos
-				draw.RoundedBox(8, x * (buttonWidth + gap), 114 + y * (buttonHeight + gap), buttonWidth, buttonHeight, Color(0, 0, 0, values.hoveredItem == i and 200 or 128))
-				local explosion = string.Explode(" ", items[i].label, false)
-				for j = 1, #explosion do
-					draw.SimpleText(explosion[j], items[i].font, buttonWidth / 2 + x * (buttonWidth + gap), 114 + buttonHeight / 2 + y * (buttonHeight + gap) - (#explosion * 6 - 6 - (j - 1) * 12), Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-				end
-			end
-
-			VRUtilMenuRenderEnd()
+	hook.Add("PreRender","vrutil_hook_renderweaponselect",function()
+		local values = {}
+		values.hoveredItem = -1
+		local hoveredSlot, hoveredSlotPos = -1, -1
+		if g_VR.menuFocus == "weaponmenu" then
+			hoveredSlot, hoveredSlotPos = math.floor(g_VR.menuCursorX / 86), math.floor((g_VR.menuCursorY - 114) / 57)
 		end
+
+		for i = 1, #items do
+			if items[i].slot == hoveredSlot and items[i].actualSlotPos == hoveredSlotPos then
+				values.hoveredItem = i
+				break
+			end
+		end
+
+		values.health, values.suit = ply:Health(), ply:Armor()
+		values.clip, values.total, values.alt = 0, 0, 0
+		local wep = ply:GetActiveWeapon()
+		if IsValid(wep) then
+			values.clip, values.total, values.alt = wep:Clip1(), ply:GetAmmoCount(wep:GetPrimaryAmmoType()), ply:GetAmmoCount(wep:GetSecondaryAmmoType())
+		end
+
+		local changes = false
+		for k, v in pairs(values) do
+			if v ~= prevValues[k] then
+				changes = true
+				break
+			end
+		end
+
+		prevValues = values
+		if not changes then return end
+		VRUtilMenuRenderStart("weaponmenu")
+		draw.RoundedBox(8, 0, 0, 145, 53, Color(0, 0, 0, 128))
+		draw.SimpleText("HEALTH", "vrmod_font_small", 10, 45, Color(255, values.health > 19 and 250 or 0, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+		draw.SimpleText(values.health, "vrmod_font_mid", 140, 50, Color(255, values.health > 19 and 250 or 0, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+		--suit
+		draw.RoundedBox(8, 149, 0, 130, 53, Color(0, 0, 0, 128))
+		draw.SimpleText("SUIT", "vrmod_font_small", 165, 45, Color(255, 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+		draw.SimpleText(values.suit, "vrmod_font_mid", 270, 50, Color(255, 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+		--ammo
+		draw.RoundedBox(8, 283, 0, 150, 53, Color(0, 0, 0, 128))
+		draw.SimpleText("AMMO", "vrmod_font_small", 290, 45, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+		draw.SimpleText(values.clip, "vrmod_font_mid", 338, 50, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+		draw.SimpleText(values.total, "vrmod_font_mid", 429, 47, Color(255, values.clip == 0 and 0 or 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+		draw.RoundedBox(8, 437, 0, 75, 53, Color(0, 0, 0, 128))
+		draw.SimpleText("ALT", "vrmod_font_small", 440, 45, Color(255, 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+		draw.SimpleText(values.alt, "vrmod_font_mid", 512, 50, Color(255, 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+		--hovered item name
+		draw.RoundedBox(8, 0, 57, 512, 53, Color(0, 0, 0, 128))
+		draw.SimpleText(items[values.hoveredItem] and items[values.hoveredItem].title or "", "vrmod_font_mid", 256, 85, Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		--weapon list/buttons
+		local buttonWidth, buttonHeight = 82, 53
+		local gap = (512 - buttonWidth * 6) / 5
+		for i = 1, #items do
+			local x, y = items[i].slot, items[i].actualSlotPos
+			draw.RoundedBox(8, x * (buttonWidth + gap), 114 + y * (buttonHeight + gap), buttonWidth, buttonHeight, Color(0, 0, 0, values.hoveredItem == i and 200 or 128))
+			local explosion = string.Explode(" ", items[i].label, false)
+			for j = 1, #explosion do
+				draw.SimpleText(explosion[j], items[i].font, buttonWidth / 2 + x * (buttonWidth + gap), 114 + buttonHeight / 2 + y * (buttonHeight + gap) - (#explosion * 6 - 6 - (j - 1) * 12), Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+			end
+		end
+
+		VRUtilMenuRenderEnd()
+	end
 	)
 end
 

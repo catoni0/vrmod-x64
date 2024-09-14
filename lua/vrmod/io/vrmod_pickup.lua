@@ -29,52 +29,50 @@ if CLIENT then
 		net.SendToServer()
 	end
 
-	net.Receive(
-		"vrmod_pickup",
-		function(len)
-			local ply = net.ReadEntity()
-			local ent = net.ReadEntity()
-			local bDrop = net.ReadBool()
-			if bDrop then
-				--print("client received drop")
-				if IsValid(ent) and ent.RenderOverride == ent.VRPickupRenderOverride then
-					ent.RenderOverride = nil
-				end
-
-				hook.Call("VRMod_Drop", nil, ply, ent)
-			else
-				local bLeftHand = net.ReadBool()
-				local localPos = net.ReadVector()
-				local localAng = net.ReadAngle()
-				--
-				local steamid = IsValid(ply) and ply:SteamID()
-				if g_VR.net[steamid] == nil then return end
-				--
-				ent.RenderOverride = function()
-					if g_VR.net[steamid] == nil then return end
-					local wpos, wang
-					if bLeftHand then
-						wpos, wang = LocalToWorld(localPos, localAng, g_VR.net[steamid].lerpedFrame.lefthandPos, g_VR.net[steamid].lerpedFrame.lefthandAng)
-					else
-						wpos, wang = LocalToWorld(localPos, localAng, g_VR.net[steamid].lerpedFrame.righthandPos, g_VR.net[steamid].lerpedFrame.righthandAng)
-					end
-
-					ent:SetPos(wpos)
-					ent:SetAngles(wang)
-					ent:SetupBones()
-					ent:DrawModel()
-				end
-
-				ent.VRPickupRenderOverride = ent.RenderOverride
-				if ply == LocalPlayer() then
-					g_VR[bLeftHand and "heldEntityLeft" or "heldEntityRight"] = ent
-				end
-
-				--]]
-				hook.Call("VRMod_Pickup", nil, ply, ent)
+	net.Receive("vrmod_pickup",function(len)
+		local ply = net.ReadEntity()
+		local ent = net.ReadEntity()
+		local bDrop = net.ReadBool()
+		if bDrop then
+			--print("client received drop")
+			if IsValid(ent) and ent.RenderOverride == ent.VRPickupRenderOverride then
+				ent.RenderOverride = nil
 			end
+
+			hook.Call("VRMod_Drop", nil, ply, ent)
+		else
+			local bLeftHand = net.ReadBool()
+			local localPos = net.ReadVector()
+			local localAng = net.ReadAngle()
+			--
+			local steamid = IsValid(ply) and ply:SteamID()
+			if g_VR.net[steamid] == nil then return end
+			--
+			ent.RenderOverride = function()
+				if g_VR.net[steamid] == nil then return end
+				local wpos, wang
+				if bLeftHand then
+					wpos, wang = LocalToWorld(localPos, localAng, g_VR.net[steamid].lerpedFrame.lefthandPos, g_VR.net[steamid].lerpedFrame.lefthandAng)
+				else
+					wpos, wang = LocalToWorld(localPos, localAng, g_VR.net[steamid].lerpedFrame.righthandPos, g_VR.net[steamid].lerpedFrame.righthandAng)
+				end
+
+				ent:SetPos(wpos)
+				ent:SetAngles(wang)
+				ent:SetupBones()
+				ent:DrawModel()
+			end
+
+			ent.VRPickupRenderOverride = ent.RenderOverride
+			if ply == LocalPlayer() then
+				g_VR[bLeftHand and "heldEntityLeft" or "heldEntityRight"] = ent
+			end
+
+			--]]
+			hook.Call("VRMod_Pickup", nil, ply, ent)
 		end
-	)
+	end)
+
 elseif SERVER then
 	util.AddNetworkString("vrmod_pickup")
 	local pickupController = nil
@@ -199,42 +197,38 @@ elseif SERVER then
 				end
 
 				pickupController:StartMotionController()
-				hook.Add(
-					"Tick",
-					"vrmod_pickup",
-					function()
+				hook.Add("Tick","vrmod_pickup",function()
 						--drop items that have become immovable or invalid
-						for i = 1, pickupCount do
-							local t = pickupList[i]
-							if t == nil then
-								i = 0
-								break
-							end
+					for i = 1, pickupCount do
+						local t = pickupList[i]
+						if t == nil then
+							i = 0
+							break
+						end
 
-							--pescorrzonestart
-							if convarValues.vrmod_test_pickup_limit_droptest == 2 then
-								drop(t.steamid, t.left)
-							end
+						--pescorrzonestart
+						if convarValues.vrmod_test_pickup_limit_droptest == 2 then
+							drop(t.steamid, t.left)
+						end
 
-							if convarValues.vrmod_test_pickup_limit_droptest == 1 then
-								if not IsValid(t.phys) or not t.phys:IsMoveable() or not g_VR[t.steamid] or not t.ply:Alive() or t.ply:InVehicle() then
-									if not g_VR[t.steamid] or t.ply:InVehicle() then
-										--print("dropping invalid")
-										drop(t.steamid, t.left)
-									end
-								end
-							end
-
-							if convarValues.vrmod_test_pickup_limit_droptest == 0 then
+						if convarValues.vrmod_test_pickup_limit_droptest == 1 then
+							if not IsValid(t.phys) or not t.phys:IsMoveable() or not g_VR[t.steamid] or not t.ply:Alive() or t.ply:InVehicle() then
 								if not g_VR[t.steamid] or t.ply:InVehicle() then
 									--print("dropping invalid")
 									drop(t.steamid, t.left)
 								end
 							end
-							--pescorrzoneend
 						end
+
+						if convarValues.vrmod_test_pickup_limit_droptest == 0 then
+							if not g_VR[t.steamid] or t.ply:InVehicle() then
+								--print("dropping invalid")
+								drop(t.steamid, t.left)
+							end
+						end
+						--pescorrzoneend
 					end
-				)
+					end)
 			end
 
 			--if the item is already being held we should overwrite the existing pickup instead of adding a new one
@@ -281,8 +275,6 @@ elseif SERVER then
 				end
 			end
 
-			--print("existing pickup")
-			--print("existing pickup")
 			local localPos, localAng = WorldToLocal(v:GetPos(), v:GetAngles(), handPos, handAng)
 			pickupList[index] = {
 				ent = v,
@@ -310,73 +302,53 @@ elseif SERVER then
 		end
 	end
 
-	vrmod.NetReceiveLimited(
-		"vrmod_pickup",
-		10,
-		400,
-		function(len, ply)
-			local bLeftHand = net.ReadBool()
-			local bDrop = net.ReadBool()
-			if not bDrop then
-				pickup(ply, bLeftHand, net.ReadVector(), net.ReadAngle())
-			else
-				drop(ply:SteamID(), bLeftHand, net.ReadVector(), net.ReadAngle(), net.ReadVector(), net.ReadVector())
-			end
+	vrmod.NetReceiveLimited("vrmod_pickup",10,400,function(len, ply)
+		local bLeftHand = net.ReadBool()
+		local bDrop = net.ReadBool()
+		if not bDrop then
+			pickup(ply, bLeftHand, net.ReadVector(), net.ReadAngle())
+		else
+			drop(ply:SteamID(), bLeftHand, net.ReadVector(), net.ReadAngle(), net.ReadVector(), net.ReadVector())
 		end
-	)
+	end)
 
-	hook.Add(
-		"VRMod_Exit",
-		"pickupreset",
-		function(ply, ent)
-			pickupCount = 0
-			hook.Call("VRMod_Drop", nil, ply, ent)
-		end
-	)
+	hook.Add("VRMod_Exit","pickupreset",function(ply, ent)
+		pickupCount = 0
+		hook.Call("VRMod_Drop", nil, ply, ent)
+	end)
 
-	hook.Add(
-		"AllowPlayerPickup",
-		"vrmod",
-		function(ply)
-			if g_VR[ply:SteamID()] ~= nil then return false end
-		end
-	)
+	hook.Add("AllowPlayerPickup","vrmod",function(ply)
+		if g_VR[ply:SteamID()] ~= nil then return false end
+	end)
 end
 
 if SERVER then
-	concommand.Add(
-		"vrmod_reset_pickup",
-		function(ply)
-			if not ply:IsValid() or not ply:IsSuperAdmin() then return end -- プレイヤーが無効または管理者でない場合は実行しない
-			pickupList = {}
-			pickupCount = 0
-			if IsValid(pickupController) then
-				pickupController:Remove()
-				pickupController = nil
-			end
-
-			net.Start("vrmod_pickup_reset")
-			net.Broadcast()
-			print("VRMod pickup table has been reset by " .. ply:Nick())
+	concommand.Add("vrmod_reset_pickup",function(ply)
+		if not ply:IsValid() or not ply:IsSuperAdmin() then return end -- プレイヤーが無効または管理者でない場合は実行しない
+		pickupList = {}
+		pickupCount = 0
+		if IsValid(pickupController) then
+			pickupController:Remove()
+			pickupController = nil
 		end
-	)
+
+		net.Start("vrmod_pickup_reset")
+		net.Broadcast()
+		print("VRMod pickup table has been reset by " .. ply:Nick())
+	end)
 
 
 	util.AddNetworkString("vrmod_pickup_reset")
 elseif CLIENT then
 
-	net.Receive(
-		"vrmod_pickup_reset",
-		function()
-
-			local steamid = LocalPlayer():SteamID()
-			if g_VR[steamid] then
-				g_VR[steamid].heldItems = {}
-			end
-
-			g_VR.heldEntityLeft = nil
-			g_VR.heldEntityRight = nil
-			print("VRMod pickup table has been reset")
+	net.Receive("vrmod_pickup_reset",function()
+		local steamid = LocalPlayer():SteamID()
+		if g_VR[steamid] then
+			g_VR[steamid].heldItems = {}
 		end
-	)
+
+		g_VR.heldEntityLeft = nil
+		g_VR.heldEntityRight = nil
+		print("VRMod pickup table has been reset")
+	end)
 end

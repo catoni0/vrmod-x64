@@ -182,15 +182,13 @@ if CLIENT then
 	end
 
 	-- GUI
-	concommand.Add(
-		"vrmod_weaponconfig",
-		function()
-			if not viewModelConfig then
-				LoadViewModelConfig()
-			end
-
-			CreateWeaponConfigGUI()
+	concommand.Add("vrmod_weaponconfig",function()
+		if not viewModelConfig then
+			LoadViewModelConfig()
 		end
+
+		CreateWeaponConfigGUI()
+	end
 	)
 
 	local function InitializeVRModViewModelSettings()

@@ -330,13 +330,6 @@ hook.Add("VRMod_Menu","addarcvr",function(frame)
                 -- Called when the slider value changes
             end
             --DNumSlider end
-
-            
-
-            
             --panel5 "TAB5" end
-
-
-
 	end
 end)

@@ -22,7 +22,6 @@ if CLIENT then
 		offsetAng = Angle(0, 0, 0),
 	}
 	
-	
 	g_VR.viewModelInfo.weapon_shotgun = {
 		offsetPos = Vector(-14.5, 10, 8.5),
 		offsetAng = Angle(0, 0, 0),

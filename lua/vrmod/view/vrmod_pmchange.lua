@@ -9,37 +9,29 @@
 local cv_allowpmchg = CreateClientConVar("vrmod_pmchange", 1,true,FCVAR_ARCHIVE)
 if CLIENT then
 	if cv_allowpmchg:GetBool() then
-		net.Receive(
-			"vrmod_pmchange",
-			function()
-				local ply = player.GetBySteamID(net.ReadString())
-				local model = net.ReadString()
-				if ply then
-					ply.vrmod_pm = model
-					--print("model change",ply,model)
-				end
+		net.Receive("vrmod_pmchange",function()
+			local ply = player.GetBySteamID(net.ReadString())
+			local model = net.ReadString()
+			if ply then
+				ply.vrmod_pm = model
 			end
-		)
+		end)
 	elseif SERVER then
 		if cv_allowpmchg:GetBool() then
 			util.AddNetworkString("vrmod_pmchange")
-			hook.Add(
-				"InitPostEntity",
-				"vrmod_pmchange",
-				function()
-					local og = getmetatable(Entity(0)).SetModel
-					getmetatable(Entity(0)).SetModel = function(...)
-						local args = {...}
-						og(unpack(args))
-						if args[1]:IsPlayer() then
-							net.Start("vrmod_pmchange")
-							net.WriteString(args[1]:SteamID())
-							net.WriteString(args[2])
-							net.Broadcast()
-						end
+			hook.Add("InitPostEntity","vrmod_pmchange",function()
+				local og = getmetatable(Entity(0)).SetModel
+				getmetatable(Entity(0)).SetModel = function(...)
+					local args = {...}
+					og(unpack(args))
+					if args[1]:IsPlayer() then
+						net.Start("vrmod_pmchange")
+						net.WriteString(args[1]:SteamID())
+						net.WriteString(args[2])
+						net.Broadcast()
 					end
 				end
-			)
+			end)
 		end
 	end
 end

@@ -137,9 +137,6 @@ concommand.Add( "vrmod_actioneditor", function( ply, cmd, args )
 	DButton:SetSize(54,20)
 	DButton:SetPos(614,31)
 	function DButton:DoClick()
-		--if #g_VR.CustomActions > 0 and (g_VR.CustomActions[#g_VR.CustomActions][1] == "" or (g_VR.CustomActions[#g_VR.CustomActions][2] == "" and g_VR.CustomActions[#g_VR.CustomActions][3] == "")) then
-		--	return
-		--end
 		g_VR.CustomActions[#g_VR.CustomActions+1] = {"","","",""}
 		UpdateList(9999999)
 	end

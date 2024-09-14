@@ -516,6 +516,12 @@ if CLIENT then
 
 			render.PopRenderTarget( g_VR.rt )
 			
+			print(desktopView)
+			pritn("pok pok pok")
+			if desktopView == nil then
+				desktopView = 0
+			end
+
 			if desktopView > 1 then
 				surface.SetDrawColor(255,255,255,255)
 				surface.SetMaterial(mat_rt)

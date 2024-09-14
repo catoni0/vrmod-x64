@@ -63,39 +63,38 @@ VRWeps.Replacer = {
 
 }
 
--- script for replacing flatscreen weapons with vr weapons on vr startup
+-- replacing flatscreen weapons with vr weapons on vr startup
 
 hook.Add("VRMod_Start", "WeaponReplacerVR", function (ply)
 
-        for k, v in pairs (ply:GetWeapons()) do         -- using a kv in pairs loop that runs through every weapon the player currently has
-            local WeaponType = v:GetClass()             -- gets the name of each weapon as a string
-            local VRWeaponType = VRWeps.Replacer[WeaponType]        -- creates a variable 'VRWeaponType' and assigns it the value (VR weapon) of the VRweps.Replacer table
-            if VRWeaponType then                                    -- checks if 'VRWeaponType' exists (i think), because any non-HL2 weapons aren't included in the table
-                ply:Give(VRWeaponType, true)                        -- gives the player the VR weapon corresponding to the flatscreen counterpart
-                if (engine.ActiveGamemode()) != ("lambda") then     -- check to see if the player is running the lambda gamemode - we don't want to remove the flatscreen weapons when playing lambda, because it breaks the gamemode
-                ply:StripWeapon(WeaponType)                         -- removes the flatscreen counterpart of the VR weapon
+        for k, v in pairs (ply:GetWeapons()) do         
+            local WeaponType = v:GetClass()             
+            local VRWeaponType = VRWeps.Replacer[WeaponType]        
+            if VRWeaponType then                                    
+                ply:Give(VRWeaponType, true)                        
+                if (engine.ActiveGamemode()) != ("lambda") then     
+                ply:StripWeapon(WeaponType)
                 end
         end
     end
 end)
 
--- script for restoring flatscreen weapons when exiting vr
+-- restoring flatscreen weapons when exiting vr
 
 hook.Add("VRMod_Exit", "WeaponRestorerFlat", function (ply)
 
-        for k, v in pairs (ply:GetWeapons()) do                     -- same thing as above, runs a loop that goes through every weapon you have
+        for k, v in pairs (ply:GetWeapons()) do                     
             local WeaponType = v:GetClass()
-            local VRWeaponType = table.KeyFromValue(VRWeps.Replacer,WeaponType) -- the opposite of above - assigns 'VRWeaponType' to the key (flatscreen weapon) of the VRWeps.Replacer table
+            local VRWeaponType = table.KeyFromValue(VRWeps.Replacer,WeaponType) 
             if VRWeaponType then
-                ply:Give(VRWeaponType, true)                        -- gives you the flatscreen weapon
-                ply:StripWeapon(WeaponType)                         -- removes the VR weapon
+                ply:Give(VRWeaponType, true)                        
+                ply:StripWeapon(WeaponType)                        
 
         end
     end
 end)
 
 
--- these next three hooks are a workaround for vrmod.IsPlayerInVR(ply) apparently not working
 hook.Add ("PlayerInitialSpawn", "WeaponReplacerInitialState", function (ply)
     if IsValid(ply) then
     PlayerVR = false
@@ -117,7 +116,7 @@ hook.Add("VRMod_Start", "WeaponReplacerActivator", function (ply)
 end)
 
 
--- script for replacing flatscreen weapons with vr weapons in realtime while playing vr
+-- replacing flatscreen weapons with vr weapons in realtime while playing vr
 
 hook.Add("VRMod_Pickup", "WeaponPickupReplacerVR", function (ply, weapon)                                     
 	if PlayerVR == true then

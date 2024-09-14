@@ -303,8 +303,8 @@ hook.Add(
 			RunConsoleCommand("vrmod_hud", "1")
 			RunConsoleCommand("vrmod_hudcurve", "60") 
 			RunConsoleCommand("vrmod_huddistance", "60") 
-			RunConsoleCommand("vrmod_hudscale", "0.05") -
-			RunConsoleCommand("vrmod_hudtestalpha", "0") -
+			RunConsoleCommand("vrmod_hudscale", "0.05") 
+			RunConsoleCommand("vrmod_hudtestalpha", "0") 
 			RunConsoleCommand("vrmod_test_ui_testver", "0")
 			RunConsoleCommand("vrmod_hudblacklist", "") 
 			RunConsoleCommand("vrmod_hud_visible_quickmenukey", "0")
@@ -334,4 +334,3 @@ hook.Add(
         form:CheckBox("Fist Collision Visible", "vrmelee_fist_visible")
         form:TextEntry("Collision Model", "vrmelee_fist_collisionmodel")
 end)
-

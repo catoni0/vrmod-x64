@@ -50,6 +50,10 @@ if CLIENT then
 		wrongMuzzleAng = true
 	}
 
+	g_VR.viewModelInfo.weapon_slam = {
+		wrongMuzzleAng = true
+	}
+
 -- custom
 	g_VR.viewModelInfo.weapon_microwaverifle = {
 		offsetPos = Vector(-9, 6.5, 10),
@@ -59,6 +63,11 @@ if CLIENT then
 		offsetPos = Vector(13, 2, -6),
 		offsetAng = Angle(0, 0, 0),
 		wrongMuzzleAng = true
+	}
+
+	g_VR.viewModelInfo.weapon_newtphysgun = {
+		offsetPos = Vector(-34.5, 13.4, 14.5),
+		offsetAng = Angle(0, 0, 0),
 	}
 
 	g_VR.swepOriginalFovs = g_VR.swepOriginalFovs or {}

@@ -145,7 +145,7 @@ function VRUtilWeaponMenuOpen()
 		
 
 		if g_VR.menuFocus == "weaponmenu" then
-			hoveredSlot, hoveredSlotPos = math.floor(g_VR.menuCursorX / (buttonWidth + Wgap)), math.floor((g_VR.menuCursorY - 114) / (buttonHeight + Hgap))
+			hoveredSlot, hoveredSlotPos = math.floor(g_VR.menuCursorX / (buttonWidth + Wgap)), math.floor((g_VR.menuCursorY - 57) / (buttonHeight + Hgap))
 		end
 
 		for i = 1, #items do
@@ -188,17 +188,13 @@ function VRUtilWeaponMenuOpen()
 		draw.RoundedBox(8, 437, 0, 75, 53, Color(0, 0, 0, 128))
 		draw.SimpleText("ALT", "vrmod_font_small", 440, 45, Color(255, 250, 0, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 		draw.SimpleText(values.alt, "vrmod_font_mid", 512, 50, Color(255, 250, 0, 255), TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
-		--hovered item name
-		draw.RoundedBox(8, 0, 57, 512, 53, Color(0, 0, 0, 128))
-		draw.SimpleText(items[values.hoveredItem] and items[values.hoveredItem].title or "", "vrmod_font_mid", 256, 85, Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-		
 		--weapon list/buttons
 		for i = 1, #items do
 			local x, y = items[i].slot, items[i].actualSlotPos
-			draw.RoundedBox(8, x * (buttonWidth + Wgap), 114 + y * (buttonHeight + Hgap), buttonWidth, buttonHeight, Color(0, 0, 0, values.hoveredItem == i and 200 or 128))
+			draw.RoundedBox(8, x * (buttonWidth + Wgap), 57 + y * (buttonHeight + Hgap), buttonWidth, buttonHeight, Color(0, 0, 0, values.hoveredItem == i and 200 or 128))
 			local explosion = string.Explode(" ", items[i].label, false)
 			for j = 1, #explosion do
-				draw.SimpleText(explosion[j], items[i].font, buttonWidth / 2 + x * (buttonWidth + Wgap), 114 + buttonHeight / 2 + y * (buttonHeight + Hgap) - (#explosion * 6 - 6 - (j - 1) * 12), Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw.SimpleText(explosion[j], items[i].font, buttonWidth / 2 + x * (buttonWidth + Wgap), 57 + buttonHeight / 2 + y * (buttonHeight + Hgap) - (#explosion * 6 - 6 - (j - 1) * 12), Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			end
 		end
 

@@ -7,7 +7,7 @@ surface.CreateFont(
 	{
 		font = defFont,
 		extended = false,
-		size = 35,
+		size = 30,
 		weight = 0,
 		blursize = 0,
 		scanlines = 0,
@@ -19,7 +19,7 @@ surface.CreateFont(
 	"vrmod_font_mid",
 	{
 		font = defFont,
-		size = 25,
+		size = 20,
 		weight = 600,
 		antialias = true,
 	}
@@ -30,7 +30,7 @@ surface.CreateFont(
 	{
 		font = defFont,
 		extended = false,
-		size = 15,
+		size = 10,
 		weight = 0,
 		blursize = 0,
 		scanlines = 0,
@@ -138,8 +138,14 @@ function VRUtilWeaponMenuOpen()
 		local values = {}
 		values.hoveredItem = -1
 		local hoveredSlot, hoveredSlotPos = -1, -1
+
+		local buttonWidth, buttonHeight = 82, 33
+		local Wgap = (512 - buttonWidth * 6) / 5
+		local Hgap = 2
+		
+
 		if g_VR.menuFocus == "weaponmenu" then
-			hoveredSlot, hoveredSlotPos = math.floor(g_VR.menuCursorX / 86), math.floor((g_VR.menuCursorY - 114) / 57)
+			hoveredSlot, hoveredSlotPos = math.floor(g_VR.menuCursorX / (buttonWidth + Wgap)), math.floor((g_VR.menuCursorY - 114) / (buttonHeight + Hgap))
 		end
 
 		for i = 1, #items do
@@ -185,15 +191,14 @@ function VRUtilWeaponMenuOpen()
 		--hovered item name
 		draw.RoundedBox(8, 0, 57, 512, 53, Color(0, 0, 0, 128))
 		draw.SimpleText(items[values.hoveredItem] and items[values.hoveredItem].title or "", "vrmod_font_mid", 256, 85, Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		
 		--weapon list/buttons
-		local buttonWidth, buttonHeight = 82, 53
-		local gap = (512 - buttonWidth * 6) / 5
 		for i = 1, #items do
 			local x, y = items[i].slot, items[i].actualSlotPos
-			draw.RoundedBox(8, x * (buttonWidth + gap), 114 + y * (buttonHeight + gap), buttonWidth, buttonHeight, Color(0, 0, 0, values.hoveredItem == i and 200 or 128))
+			draw.RoundedBox(8, x * (buttonWidth + Wgap), 114 + y * (buttonHeight + Hgap), buttonWidth, buttonHeight, Color(0, 0, 0, values.hoveredItem == i and 200 or 128))
 			local explosion = string.Explode(" ", items[i].label, false)
 			for j = 1, #explosion do
-				draw.SimpleText(explosion[j], items[i].font, buttonWidth / 2 + x * (buttonWidth + gap), 114 + buttonHeight / 2 + y * (buttonHeight + gap) - (#explosion * 6 - 6 - (j - 1) * 12), Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+				draw.SimpleText(explosion[j], items[i].font, buttonWidth / 2 + x * (buttonWidth + Wgap), 114 + buttonHeight / 2 + y * (buttonHeight + Hgap) - (#explosion * 6 - 6 - (j - 1) * 12), Color(255, 250, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 			end
 		end
 

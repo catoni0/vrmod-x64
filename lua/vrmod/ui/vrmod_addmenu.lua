@@ -12,38 +12,61 @@ hook.Add(
 		--add VRMod_Menu Settings02 propertysheet end
 		--MenuTab01  Start
 		local MenuTab01 = vgui.Create("DPanel", sheet)
-		sheet:AddSheet("FPS", MenuTab01, "icon16/cog_add.png")
-		MenuTab01.Paint = function(self, w, h) end -- draw.RoundedBox(4, 0, 0, w, h, Color(0, 0, 0, self:GetAlpha()))
-		--DCheckBoxLabel Start
-		local r_3dsky = MenuTab01:Add("DCheckBoxLabel") -- Create the checkbox
-		r_3dsky:SetPos(20, 10) -- Set the position
-		r_3dsky:SetText("Skybox Enable(Client)") -- Set the text next to the box
-		r_3dsky:SetConVar("r_3dsky") -- Change a ConVar when the box it ticked/unticked
-		r_3dsky:SizeToContents() -- Make its size the same as the contents
-		--DCheckBoxLabel end
-		--DCheckBoxLabel Start
-		local r_shadows = MenuTab01:Add("DCheckBoxLabel") -- Create the checkbox
-		r_shadows:SetPos(20, 30) -- Set the position
-		r_shadows:SetText("Shadows&FlashLights Effect Enable(Client)") -- Set the text next to the box
-		r_shadows:SetConVar("r_shadows") -- Change a ConVar when the box it ticked/unticked
-		r_shadows:SizeToContents() -- Make its size the same as the contents
-		--DCheckBoxLabel end
-		--DNumSlider Start
-		--vr_r_farz
-		local r_farz = vgui.Create("DNumSlider", MenuTab01)
-		r_farz:SetPos(20, 50) -- Set the position (X,Y)
-		r_farz:SetSize(370, 25) -- Set the size (X,Y)
-		r_farz:SetText("[Visible range of map] \n (sv_cheats 1 is required)") -- Set the text above the slider
-		r_farz:SetMin(-1) -- Set the minimum number you can slide to
-		r_farz:SetMax(16384) -- Set the maximum number you can slide to
-		r_farz:SetDecimals(0) -- Decimal places - zero for whole number (set 2 -> 0.00)
-		r_farz:SetConVar("r_farz") -- Changes the ConVar when you slide
-		-- If not using convars, you can use this hook + Panel.SetValue()
-		r_farz.OnValueChanged = function(self, value) end -- Called when the slider value changes
-		--DNumSlider end
-		--DNumSlider Start
-		--mat_queue_mode
+		sheet:AddSheet("Rendering", MenuTab01, "icon16/cog_add.png")
+		MenuTab01.Paint = function(self, w, h) end -- Clear painting for the panel
+		
+		-- Create the vertical scale slider
+		local vS = vgui.Create("DNumSlider")
+		MenuTab01:Add(vS) -- Add slider to the panel
+		vS:Dock(TOP) -- Dock it to the top
+		vS:DockMargin(5, 0, 0, 5) -- Set margin
+		vS:SetMin(0.05) -- Minimum value
+		vS:SetMax(1) -- Maximum value
+		vS:SetDecimals(2) -- Decimal precision
+		vS:SetValue(convarValues.vrmod_vertical_scale) -- Initialize with the current value
+		vS:SetDark(true) -- Dark background
+		vS:SetText("Vertical Scale Factor") -- Set label text
 
+		vS.OnValueChanged = function(self, value)
+			--print("Vertical Scale changed to: ", value) -- Debug print
+			RunConsoleCommand("vrmod_vertical_scale", value) -- Update the ConVar via a console command
+		end
+		
+		-- Handle value changes
+
+
+		local hS = vgui.Create("DNumSlider")
+
+		MenuTab01:Add(hS)
+		hS:DockMargin(5, 0, 0, 5) -- Set margin
+		hS:SetMin(0.05) -- Minimum value
+		hS:SetMax(1) -- Maximum value
+		hS:SetDecimals(2) -- Decimal precision
+		hS:SetValue(convarValues.vrmod_horizontal_scale) -- Initialize with the current value
+		hS:SetDark(true) -- Dark background
+		hS:SetText("Horizontal Scale Factor") -- Set label text
+		hS:Dock(TOP) -- Dock it to the top
+		
+		hS.OnValueChanged = function(self, value)
+			--print("Horizontal Scale changed to: ", value) -- Debug print
+			RunConsoleCommand("vrmod_horizontal_scale", value) -- Update the ConVar via a console command
+		end
+
+		-- Reset Button
+		local resetButton = vgui.Create("DButton", MenuTab01)
+		resetButton:Dock(TOP)
+		resetButton:DockMargin(5, 10, 0, 5)
+		resetButton:SetText("Reset Scale Factors")
+		resetButton:SetSize(150, 25)
+		resetButton.DoClick = function()
+			local vSF = system.IsLinux() and 0.25 or 0.5
+			local hSF = system.IsLinux() and 0.20 or 0.25
+			-- Reset values to defaults
+			vS:SetValue(vSF)  -- Default value for vertical scale
+			hS:SetValue(hSF) -- Default value for horizontal scale
+			convarValues.vrmod_vertical_scale:SetFloat(vSF)
+			convarValues.vrmod_horizontal_scale:SetFloat(hSF)
+		end
 		--DButton end
 		-- MenuTab02  Start
 		local MenuTab02 = vgui.Create("DPanel", sheet)

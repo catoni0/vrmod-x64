@@ -29,11 +29,15 @@ if CLIENT then
 	g_VR.input = {}
 	g_VR.changedInputs = {}
 	g_VR.errorText = ""
+	local vScale = system.IsLinux() and 0.25 or 0.5
+	local hScale = system.IsLinux() and 0.20 or 0.25
 	
 	--todo move some of these to the files where they belong
 	vrmod.AddCallbackedConvar("vrmod_althead", nil, "0")
 	vrmod.AddCallbackedConvar("vrmod_autostart", nil, "0")
 	vrmod.AddCallbackedConvar("vrmod_scale", nil, "32.7")
+	vrmod.AddCallbackedConvar("vrmod_vertical_scale", nil, vScale)
+	vrmod.AddCallbackedConvar("vrmod_horizontal_scale", nil, hScale)
 	vrmod.AddCallbackedConvar("vrmod_heightmenu", nil, "1")
 	vrmod.AddCallbackedConvar("vrmod_floatinghands", nil, "0")
 	vrmod.AddCallbackedConvar("vrmod_desktopview", nil, "3")
@@ -293,8 +297,11 @@ if CLIENT then
 
 		local vMin = system.IsWindows() and 0 or 1
 		local vMax =  system.IsWindows() and 1 or 0
-		local vFactor = system.IsLinux() and 0.22 or 0.5
-		local hFactor = system.IsLinux() and 0.216 or 0.25
+		--reset according to os
+		--local vFactor = system.IsLinux() and 0.25 or 0.5
+		--local hFactor = system.IsLinux() and 0.20 or 0.25
+		local vFactor = convars.vrmod_vertical_scale:GetFloat()
+		local hFactor = convars.vrmod_horizontal_scale:GetFloat()
 		local vMinLeft = vMin - math.abs(displayCalculations.left.VerticalOffset * vFactor)
 		local vMaxLeft = vMax - math.abs(displayCalculations.left.VerticalOffset * vFactor)
 		local vMinRight = vMin - math.abs(displayCalculations.right.VerticalOffset * vFactor)

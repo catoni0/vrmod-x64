@@ -10,6 +10,9 @@ if SERVER then
         "alex_matrix_stopbullets",
         "blink",
         "spartan_kick",
+        "arcticvr_nade_frag",
+        "arcticvr_nade_flash",
+        "arcticvr_nade_smoke",
     }
 
     local function InBlackList(weaponClass)                                                                          

@@ -2,21 +2,40 @@ AddCSLuaFile()
 
 include("vrmod/base/vrmod_api.lua")
 include("vrmod/base/vrmod.lua")
-
-local paths = {}
-
-local _, folders = file.Find("vrmod/*","LUA")
-table.sort(folders, function(a,b) return tonumber(a) < tonumber(b) end)
-for k,v in ipairs(folders) do
-	paths[#paths+1] = "vrmod/"..v.."/"
-end
-paths[#paths+1] = "vrmod/"
-
-for k,v in ipairs(paths) do
-	for k2,v2 in ipairs(file.Find(v.."*","LUA")) do
-		if v2 ~= "vrmod.lua" and v2 ~= "vrmod_api.lua" then
-			AddCSLuaFile(v..v2)
-			include(v..v2)
-		end
-	end
-end
+include("vrmod/base/cardboardmod.lua")
+include("vrmod/base/vrmod_changelog.lua")
+include("vrmod/base/vrmod_network.lua")
+include("vrmod/ui/vrmod_actioneditor.lua")
+include("vrmod/ui/vrmod_addmenu.lua")
+include("vrmod/ui/vrmod_arcmenu.lua")
+include("vrmod/ui/vrmod_dermapopups.lua")
+include("vrmod/ui/vrmod_halos.lua")
+include("vrmod/ui/vrmod_hud.lua")
+include("vrmod/ui/vrmod_mapbrowser.lua")
+include("vrmod/ui/vrmod_menu.lua")
+include("vrmod/ui/vrmod_ui.lua")
+include("vrmod/ui/vrmod_ui_buttons.lua")
+include("vrmod/ui/vrmod_ui_chat.lua")
+include("vrmod/ui/vrmod_ui_heightadjust.lua")
+include("vrmod/ui/vrmod_ui_quickmenu.lua")
+include("vrmod/ui/vrmod_ui_weaponselect.lua")
+include("vrmod/ui/vrmod_worldtips.lua")
+include("vrmod/io/vrmod_climbing.lua")
+include("vrmod/io/vrmod_doors.lua")
+include("vrmod/io/vrmod_dropweapon.lua")
+include("vrmod/io/vrmod_flashlight.lua")
+include("vrmod/io/vrmod_input.lua")
+include("vrmod/io/vrmod_locomotion.lua")
+include("vrmod/io/vrmod_manualpickup.lua")
+include("vrmod/io/vrmod_melee_global.lua")
+include("vrmod/io/vrmod_physhands.lua")
+include("vrmod/io/vrmod_pickup.lua")
+include("vrmod/io/vrmod_pickup_arcvr.lua")
+include("vrmod/io/vrmod_seated.lua")
+include("vrmod/io/vrmod_steamvr_bindings.lua")
+include("vrmod/view/vrmod_character.lua")
+include("vrmod/view/vrmod_character_hands.lua")
+include("vrmod/view/vrmod_pmchange.lua")
+include("vrmod/view/vrmod_viewmodeledit.lua")
+include("vrmod/view/vrmod_viewmodelinfo.lua")
+include("vrmod/view/vrmod_weaponreplacer.lua")

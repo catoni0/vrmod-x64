@@ -4,8 +4,7 @@ local orig = meta.MakePopup
 local popupCount = 0
 local basePos, baseAng
 local _, convarValues = vrmod.GetConvars()
-local vrScrH = CreateClientConVar("vrmod_ScrH", ScrH(), true, FCVAR_ARCHIVE)
-local vrScrW = CreateClientConVar("vrmod_ScrW", ScrW(), true, FCVAR_ARCHIVE)
+
 -- All active popups
 local allPopups = {}
 meta.MakePopup = function(...)
@@ -67,111 +66,78 @@ meta.MakePopup = function(...)
 			if mode == 1 then
 				--
 				--forw, left, up
-				VRUtilMenuOpen(
-					uid,
-					vrScrW:GetInt(),
-					vrScrH:GetInt(),
-					panel,
-					mode,
-					Vector(20, 11, 8),
-					Angle(0, -90, 50),
-					0.03,
-					true,
-					function()
-						timer.Simple(
-							0.1,
-							function()
-								if not g_VR.active and IsValid(panel) then
-									panel:MakePopup() --make sure we don't leave unclickable panels open when exiting vr
-									panel:RequestFocus()
-								end
-							end
-						)
-
-						popupCount = popupCount - 1
-						-- Remove the popup from the list when it closes
-						for i, v in ipairs(allPopups) do
-							if v == uid then
-								table.remove(allPopups, i)
-								break
+				VRUtilMenuOpen(uid,1366,768,panel,mode,Vector(20, 11, 8),Angle(0, -90, 50),0.03,true,function()
+					timer.Simple(
+						0.1,
+						function()
+							if not g_VR.active and IsValid(panel) then
+								panel:MakePopup() --make sure we don't leave unclickable panels open when exiting vr
+								panel:RequestFocus()
 							end
 						end
+					)
+
+					popupCount = popupCount - 1
+					-- Remove the popup from the list when it closes
+					for i, v in ipairs(allPopups) do
+						if v == uid then
+							table.remove(allPopups, i)
+							break
+						end
 					end
-				)
+				end)
 
 				popupCount = popupCount + 1
 				VRUtilMenuRenderPanel(uid)
 				--
 			elseif mode == 3 then
 				--forw, left, up
-				VRUtilMenuOpen(
-					uid,
-					vrScrW:GetInt(),
-					vrScrH:GetInt(),
-					panel,
-					3,
-					Vector(30, 20, 10),
-					Angle(0, -90, 90),
-					0.03,
-					true,
-					function()
-						timer.Simple(
-							0.1,
-							function()
-								if not g_VR.active and IsValid(panel) then
-									panel:MakePopup() --make sure we don't leave unclickable panels open when exiting vr
-									panel:RequestFocus()
-								end
-							end
-						)
-
-						popupCount = popupCount - 1
-						-- Remove the popup from the list when it closes
-						for i, v in ipairs(allPopups) do
-							if v == uid then
-								table.remove(allPopups, i)
-								break
+				VRUtilMenuOpen(uid,1366,768,panel,3,Vector(30, 20, 10),Angle(0, -90, 90),0.03,true,function()
+					timer.Simple(
+						0.1,
+						function()
+							if not g_VR.active and IsValid(panel) then
+								panel:MakePopup() --make sure we don't leave unclickable panels open when exiting vr
+								panel:RequestFocus()
 							end
 						end
+					)
+
+					popupCount = popupCount - 1
+					-- Remove the popup from the list when it closes
+					for i, v in ipairs(allPopups) do
+						if v == uid then
+							table.remove(allPopups, i)
+							break
+						end
 					end
-				)
+				end)
 
 				popupCount = popupCount + 1
 				VRUtilMenuRenderPanel(uid)
 			else --
 				--forw, left, up
-				VRUtilMenuOpen(
-					uid,
-					vrScrW:GetInt(),
-					vrScrH:GetInt(),
-					panel,
-					mode,
-					pos,
-					ang,
-					0.03,
-					true,
-					function()
-						timer.Simple(
-							0.1,
-							function()
-								if not g_VR.active and IsValid(panel) then
-									panel:MakePopup() --make sure we don't leave unclickable panels open when exiting vr
-									panel:RequestFocus()
+				VRUtilMenuOpen(uid,1366,768,panel,mode,pos,ang,0.03,true,function()
+					timer.Simple(
+						0.1,
+						function()
+							if not g_VR.active and IsValid(panel) then
+								panel:MakePopup() --make sure we don't leave unclickable panels open when exiting vr
+								panel:RequestFocus()
 
-								end
-							end
-						)
-
-						popupCount = popupCount - 1
-						-- Remove the popup from the list when it closes
-						for i, v in ipairs(allPopups) do
-							if v == uid then
-								table.remove(allPopups, i)
-								break
 							end
 						end
+					)
+
+					popupCount = popupCount - 1
+					-- Remove the popup from the list when it closes
+					for i, v in ipairs(allPopups) do
+						if v == uid then
+							table.remove(allPopups, i)
+							break
+						end
 					end
-				)
+				end)
 
 				popupCount = popupCount + 1
 				VRUtilMenuRenderPanel(uid)
@@ -191,20 +157,12 @@ hook.Add(
 	end
 )
 
-hook.Add(
-	"VRMod_Start",
-	"dermapopups",
-	function(ply)
-		if ply ~= LocalPlayer() then return end
-		vgui.GetWorldPanel():SetSize(vrScrW:GetInt(), vrScrH:GetInt())
-	end
-)
+hook.Add("VRMod_Start","dermapopups",function(ply)
+	if ply ~= LocalPlayer() then return end
+	vgui.GetWorldPanel():SetSize(1366,768)
+end)
 
-hook.Add(
-	"VRMod_Exit",
-	"dermapopups",
-	function(ply)
-		if ply ~= LocalPlayer() then return end
-		vgui.GetWorldPanel():SetSize(vrScrW:GetInt(), vrScrH:GetInt())
-	end
-)
+hook.Add("VRMod_Exit","dermapopups",function(ply)
+	if ply ~= LocalPlayer() then return end
+	vgui.GetWorldPanel():SetSize(ScrW(),ScrH())
+end)

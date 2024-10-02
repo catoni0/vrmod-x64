@@ -2,8 +2,6 @@ if SERVER then return end
 
 CreateClientConVar("cardboardmod_scale", "39.37008", true, false)
 CreateClientConVar("cardboardmod_sensitivity", "0.01", true, false)
-local vrScrH = CreateClientConVar("vrmod_ScrH",ScrH(),true,FCVAR_ARCHIVE)
-local vrScrW = CreateClientConVar("vrmod_ScrW",ScrW(),true,FCVAR_ARCHIVE)
 
 local ogMcore, ogBorder, ogVMFOV
 
@@ -15,6 +13,9 @@ concommand.Add( "cardboardmod_start", function( ply, cmd, args )
 	end
 	ogVMFOV = GetConVar("viewmodel_fov"):GetString()
 
+	RunConsoleCommand("gmod_mcore_test", "0")
+	RunConsoleCommand("viewmodel_fov", "90")
+	
 	if VRMOD_GetVersion() >= 12 then
 		VRMOD_Shutdown()
 	end
@@ -23,6 +24,7 @@ concommand.Add( "cardboardmod_start", function( ply, cmd, args )
 		print("vr init failed")
 		return
 	end
+	
 	
 	--
 	local displayInfo = VRMOD_GetDisplayInfo(1,10)
@@ -109,8 +111,13 @@ concommand.Add( "cardboardmod_start", function( ply, cmd, args )
 		end
 	end)
 	
-	vgui.GetWorldPanel():SetSize(vrScrW:GetInt(),vrScrH:GetInt())
-
+	vgui.GetWorldPanel():SetSize(1024,768)
+	--local panels = vgui.GetWorldPanel():GetChildren()
+	--panels[#panels+1] = GetHUDPanel()
+	--for k,v in pairs(panels) do
+	--	v:SetPaintedManually(true)
+	--end
+	
 	local panels = {g_SpawnMenu, g_ContextMenu}
 	
 	hook.Add("PostDrawTranslucentRenderables","cardboardmod_postdrawtranslucentrenderables",function()
@@ -124,10 +131,10 @@ concommand.Add( "cardboardmod_start", function( ply, cmd, args )
 			surface.SetMaterial(mat_hud)
 			local tmp = render.GetToneMappingScaleLinear()
 			render.SetToneMappingScaleLinear(Vector(0.8,0.8,0.8))
-			surface.DrawTexturedRectUV(0,0,vrScrW:GetInt(),vrScrH:GetInt(),0,0,vrScrW:GetInt()/rtWidth,vrScrH:GetInt()/rtHeight)
+			surface.DrawTexturedRectUV(0,0,1024,768,0,0,1024/rtWidth,768/rtHeight)
 			render.SetToneMappingScaleLinear(tmp)
 			--surface.SetDrawColor(255,0,0,255)
-			--surface.DrawOutlinedRect(0,0,vrScrW:GetInt(),vrScrH:GetInt())
+			--surface.DrawOutlinedRect(0,0,1024,768)
 		cam.End3D2D()
 		cam.IgnoreZ(false)
 		
@@ -163,7 +170,7 @@ concommand.Add( "cardboardmod_start", function( ply, cmd, args )
 		cam.Start2D()
 		render.OverrideAlphaWriteEnable(true,true)
 		render.Clear(0,0,0,0,true,true)
-		render.RenderHUD(0,0,vrScrW:GetInt(),vrScrH:GetInt())
+		render.RenderHUD(0,0,1024,768)
 		for k,v in pairs(panels) do
 			if IsValid(v) and v:IsVisible() then
 				v:PaintManual()
@@ -199,5 +206,5 @@ concommand.Add( "cardboardmod_exit", function( ply, cmd, args )
 		RunConsoleCommand("spawnmenu_border", ogBorder)
 	end
 	RunConsoleCommand("viewmodel_fov", ogVMFOV)
-	vgui.GetWorldPanel():SetSize(vrScrW:GetInt(),vrScrH:GetInt())
+	vgui.GetWorldPanel():SetSize(ScrW(),ScrH())
 end )

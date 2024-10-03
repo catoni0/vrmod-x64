@@ -28,7 +28,6 @@ hook.Add(
 		vS:SetText("Vertical Scale Factor") -- Set label text
 
 		vS.OnValueChanged = function(self, value)
-			--print("Vertical Scale changed to: ", value) -- Debug print
 			RunConsoleCommand("vrmod_vertical_scale", value) -- Update the ConVar via a console command
 		end
 		
@@ -48,7 +47,6 @@ hook.Add(
 		hS:Dock(TOP) -- Dock it to the top
 		
 		hS.OnValueChanged = function(self, value)
-			--print("Horizontal Scale changed to: ", value) -- Debug print
 			RunConsoleCommand("vrmod_horizontal_scale", value) -- Update the ConVar via a console command
 		end
 
@@ -67,6 +65,12 @@ hook.Add(
 			convarValues.vrmod_vertical_scale:SetFloat(vSF)
 			convarValues.vrmod_horizontal_scale:SetFloat(hSF)
 		end
+
+		local realtime_render = MenuTab01:Add("DCheckBoxLabel") -- Create the checkbox
+		realtime_render:SetPos(5, 120) -- Set the position
+		realtime_render:SetText("[Realtime UI rendering]") -- Set the text next to the box
+		realtime_render:SetConVar("vrmod_ui_realtime") -- Change a ConVar when the box it ticked/unticked
+		realtime_render:SizeToContents() -- Make its size the same as the contents
 		--DButton end
 		-- MenuTab02  Start
 		local MenuTab02 = vgui.Create("DPanel", sheet)
@@ -265,7 +269,6 @@ hook.Add(
 		attach_quickmenu:SetSize(320, 25) -- Set the size (X,Y)
 		attach_quickmenu:SetText("[quickmenu Attach Position]") -- Set the text above the slider
 		attach_quickmenu:AddChoice("left hand")
-		attach_quickmenu:AddChoice("ʄ(buggy)")
 		attach_quickmenu:AddChoice("HMD")
 		attach_quickmenu:AddChoice("Right Static")
 		attach_quickmenu.OnSelect = function(self, index, value)
@@ -279,7 +282,6 @@ hook.Add(
 		attach_weaponmenu:SetSize(320, 25) -- Set the size (X,Y)
 		attach_weaponmenu:SetText("[weaponmenu Attach Position]") -- Set the text above the slider
 		attach_weaponmenu:AddChoice("left hand")
-		attach_weaponmenu:AddChoice("ʄ(buggy)")
 		attach_weaponmenu:AddChoice("HMD")
 		attach_weaponmenu:AddChoice("Right Static")
 		attach_weaponmenu.OnSelect = function(self, index, value)
@@ -293,20 +295,12 @@ hook.Add(
 		attach_popup:SetSize(320, 25) -- Set the size (X,Y)
 		attach_popup:SetText("[popup Window Attach Position]") -- Set the text above the slider
 		attach_popup:AddChoice("left hand")
-		attach_popup:AddChoice("ʄ(buggy)")
 		attach_popup:AddChoice("HMD")
 		attach_popup:AddChoice("Right Static")
 		attach_popup.OnSelect = function(self, index, value)
 			LocalPlayer():ConCommand("vrmod_attach_popup " .. index)
 		end
 
-		--DNumSlider end
-		--DCheckBoxLabel Start
-		local vremenu_attach = MenuTab04:Add("DCheckBoxLabel") -- Create the checkbox
-		vremenu_attach:SetPos(20, 310) -- Set the position
-		vremenu_attach:SetText("[VRE UI LeftHand]") -- Set the text next to the box
-		vremenu_attach:SetConVar("vre_ui_attachtohand") -- Change a ConVar when the box it ticked/unticked
-		vremenu_attach:SizeToContents() -- Make its size the same as the contents
 		--DCheckBoxLabel end
 		--DCheckBoxLabel Start
 		local vrmod_ui_outline = MenuTab04:Add("DCheckBoxLabel") -- Create the checkbox

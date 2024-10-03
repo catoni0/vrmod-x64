@@ -10,7 +10,6 @@ if CLIENT then
 	vrmod.AddCallbackedConvar("vrmod_attach_quickmenu", nil, 1, nil, "", 0, 4, tonumber)
 	vrmod.AddCallbackedConvar("vrmod_attach_popup", nil, 1, nil, "", 0, 4, tonumber)
 	vrmod.AddCallbackedConvar("vrmod_attach_heightmenu", nil, 1, nil, "", 0, 4, tonumber)
-	vrmod.AddCallbackedConvar("vre_ui_attachtohand", nil, 1, nil, "", 0, 1, tonumber)
 	local uioutline = CreateClientConVar("vrmod_ui_outline", 1, true, FCVAR_ARCHIVE, nil, 0, 1)
 	local rt_beam = GetRenderTarget("vrmod_rt_beam", 64, 64, false)
 	local mat_beam = CreateMaterial(
@@ -22,6 +21,7 @@ if CLIENT then
 		}
 	)
 
+	
 	render.PushRenderTarget(rt_beam)
 	--menu pointer color
 	render.Clear(72, 255, 0, 255)
@@ -33,6 +33,7 @@ if CLIENT then
 	local menuOrder = {}
 	local menusExist = false
 	local prevFocusPanel = nil
+
 	function VRUtilMenuRenderPanel(uid)
 		if not menus[uid] or not menus[uid].panel or not menus[uid].panel:IsValid() then return end
 		render.PushRenderTarget(menus[uid].rt)
@@ -70,6 +71,8 @@ if CLIENT then
 		local menuFocusPanel = nil
 		local menuFocusCursorWorldPos = nil
 		local tms = render.GetToneMappingScaleLinear()
+
+		
 		render.SetToneMappingScaleLinear(g_VR.view.dopostprocess and Vector(0.50, 0.50, 0.50) or Vector(1, 1, 1))
 		for k, v in ipairs(menuOrder) do
 			k = v.uid
@@ -81,6 +84,7 @@ if CLIENT then
 			end
 
 			local pos, ang = v.pos, v.ang
+			
 			if v.attachment == 1 then
 				pos, ang = LocalToWorld(pos, ang, g_VR.tracking.pose_lefthand.pos, g_VR.tracking.pose_lefthand.ang)
 			elseif v.attachment == 2 then
@@ -90,7 +94,7 @@ if CLIENT then
 			elseif v.attachment == 4 then
 				pos, ang = LocalToWorld(pos, ang, g_VR.origin, g_VR.originAngle)
 			end
-
+			v.scale = 0.02
 			cam.IgnoreZ(true)
 			cam.Start3D2D(pos, ang, v.scale)
 			surface.SetDrawColor(255, 255, 255, 255)
@@ -106,6 +110,7 @@ if CLIENT then
 			cam.IgnoreZ(false)
 			if v.cursorEnabled then
 				local cursorX, cursorY = -1, -1
+				
 				local cursorWorldPos = Vector(0, 0, 0)
 				local start = g_VR.tracking.pose_righthand.pos
 				local dir = g_VR.tracking.pose_righthand.ang:Forward()
@@ -154,6 +159,7 @@ if CLIENT then
 			input.SetCursorPos(g_VR.menuCursorX, g_VR.menuCursorY)
 			-- realtime ui start
 			if convarValues.vrmod_ui_realtime == 1 then
+			
 				VRUtilMenuRenderPanel(g_VR.menuFocus)
 			end
 		end

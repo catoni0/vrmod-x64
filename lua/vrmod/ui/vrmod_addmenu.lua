@@ -186,8 +186,8 @@ hook.Add(
 		
 		--MenuTab03 "1" end
 		-- MenuTab04  Start
-		local MenuTab04 = vgui.Create("DPanel", sheet)
-		sheet:AddSheet("HUD", MenuTab04, "icon16/layers.png")
+		local MenuTab04 = vgui.Create("DScrollPanel", sheet)
+		sheet:AddSheet("HUD/UI", MenuTab04, "icon16/layers.png")
 		MenuTab04.Paint = function(self, w, h) end -- draw.RoundedBox(4, 0, 0, w, h, Color(0, 0, 0, self:GetAlpha()))
 		--DCheckBoxLabel Start
 		local vrmod_hud = MenuTab04:Add("DCheckBoxLabel") -- Create the checkbox
@@ -262,7 +262,7 @@ hook.Add(
 		vrmod_hud_visible_quickmenukey:SetConVar("vrmod_hud_visible_quickmenukey") -- Change a ConVar when the box it ticked/unticked
 		vrmod_hud_visible_quickmenukey:SizeToContents() -- Make its size the same as the contents
 		--DCheckBoxLabel 
-		
+
 		--vrmod_attach_quickmenu
 		local attach_quickmenu = vgui.Create("DComboBox", MenuTab04)
 		attach_quickmenu:SetPos(20, 215) -- Set the position (X,Y)
@@ -309,11 +309,41 @@ hook.Add(
 		vrmod_ui_outline:SetConVar("vrmod_ui_outline") -- Change a ConVar when the box it ticked/unticked
 		vrmod_ui_outline:SizeToContents() -- Make its size the same as the contents
 		
+
+		local label = vgui.Create("DLabel", MenuTab04)  -- 'parentPanel' is the parent container
+		label:SetPos(20, 340)                             -- Set the position on the parent panel
+		label:SetSize(200, 30)                           -- Set the size of the label
+		label:SetText("Beam color")                 -- Set the text for the label
+		label:SetTextColor(Color(255, 255, 255))         -- Set the text color (optional)
+		label:SetFont("Default")                         -- Set the font (optional)
+		label:SetWrap(true)       
+
+		local colorMixer = vgui.Create("DColorMixer", MenuTab04)
+		colorMixer:SetPos(20, 360)
+		colorMixer:SetSize(360, 200)
+		colorMixer:SetPalette(true)  -- Allow the user to choose custom colors from a palette
+		colorMixer:SetAlphaBar(true) -- Show alpha channel (opacity)
+		colorMixer:SetWangs(true)    -- Show RGB wangs (sliders)
+	
+		-- Load the stored color from the ConVar and set it as the default color
+		--local storedColor = string.ToColor(convarValues.vrmod_beam_color)
+
+		local r, g, b, a = string.match(convarValues.vrmod_beam_color, "(%d+),(%d+),(%d+),(%d+)")
+		local storedColor = Color(tonumber(r), tonumber(g), tonumber(b), tonumber(a))
+		colorMixer:SetColor(storedColor)
+	
+		-- Add an event listener to handle color changes
+		colorMixer.ValueChanged = function(picker, color)
+			-- Save the new color to the ConVar
+			local colorString = string.format("%d,%d,%d,%d", color.r, color.g, color.b, color.a)
+			RunConsoleCommand("vrmod_beam_color", colorString)
+		end
 		--DButton Start
 		--HUD_defaultbutton
+
 		local HUD_defaultbutton = vgui.Create("DButton", MenuTab04) -- Create the button and parent it to the frame
-		HUD_defaultbutton:SetText("setdefaultvalue") -- Set the text on the button
-		HUD_defaultbutton:SetPos(190, 310) -- Set the position on the frame
+		HUD_defaultbutton:SetText("set defaults") -- Set the text on the button
+		HUD_defaultbutton:SetPos(190, 600) -- Set the position on the frame
 		HUD_defaultbutton:SetSize(160, 30) -- Set the size
 
 		HUD_defaultbutton.DoClick = function()

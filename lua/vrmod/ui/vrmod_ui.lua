@@ -10,6 +10,8 @@ if CLIENT then
 	vrmod.AddCallbackedConvar("vrmod_attach_quickmenu", nil, 1, nil, "", 0, 4, tonumber)
 	vrmod.AddCallbackedConvar("vrmod_attach_popup", nil, 1, nil, "", 0, 4, tonumber)
 	vrmod.AddCallbackedConvar("vrmod_attach_heightmenu", nil, 1, nil, "", 0, 4, tonumber)
+	vrmod.AddCallbackedConvar("vrmod_beam_color", nil, "255,0,0,255")
+
 	local uioutline = CreateClientConVar("vrmod_ui_outline", 1, true, FCVAR_ARCHIVE, nil, 0, 1)
 	local rt_beam = GetRenderTarget("vrmod_rt_beam", 64, 64, false)
 	local mat_beam = CreateMaterial(
@@ -21,12 +23,12 @@ if CLIENT then
 		}
 	)
 
-	
 	render.PushRenderTarget(rt_beam)
 	--menu pointer color
-	render.Clear(72, 255, 0, 255)
+	local beamColor = convarValues.vrmod_beam_color
+	local r, g, b, a = string.match(beamColor, "(%d+),(%d+),(%d+),(%d+)")
+	render.Clear(tonumber(r), tonumber(g), tonumber(b), tonumber(a))
 	render.PopRenderTarget()
-
 
 	g_VR.menus = {}
 	local menus = g_VR.menus
@@ -94,7 +96,10 @@ if CLIENT then
 			elseif v.attachment == 4 then
 				pos, ang = LocalToWorld(pos, ang, g_VR.origin, g_VR.originAngle)
 			end
-			v.scale = 0.02
+	
+			if v.uid ~= "heightmenu" then
+				v.scale = 0.02
+			end
 			cam.IgnoreZ(true)
 			cam.Start3D2D(pos, ang, v.scale)
 			surface.SetDrawColor(255, 255, 255, 255)
@@ -283,5 +288,6 @@ concommand.Add("vrmod_vgui_reset",function()
 	for _, v in pairs(vgui.GetWorldPanel():GetChildren()) do
 		v:Remove()
 	end
-	RunConsoleCommand("spawnmenu_reload") -- It even removes spawnmenu, so we need to reload it
+	RunConsoleCommand("spawnmenu_reload")
+	 -- It even removes spawnmenu, so we need to reload it
 end)

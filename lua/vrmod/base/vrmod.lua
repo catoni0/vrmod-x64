@@ -297,9 +297,6 @@ if CLIENT then
 
 		local vMin = system.IsWindows() and 0 or 1
 		local vMax =  system.IsWindows() and 1 or 0
-		--reset according to os
-		--local vFactor = system.IsLinux() and 0.25 or 0.5
-		--local hFactor = system.IsLinux() and 0.20 or 0.25
 		local vFactor = convars.vrmod_vertical_scale:GetFloat()
 		local hFactor = convars.vrmod_horizontal_scale:GetFloat()
 		local vMinLeft = vMin - math.abs(displayCalculations.left.VerticalOffset * vFactor)
